@@ -5,7 +5,6 @@ import { motion } from "framer-motion";
 export default function CTABanner() {
   return (
     <section
-      id="contact"
       className="relative overflow-hidden py-28 md:py-40"
       style={{ background: "#E8541A" }}
     >

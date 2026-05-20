@@ -57,6 +57,34 @@ export default function Footer() {
                   </a>
                 ))}
               </div>
+
+              {/* Contact details */}
+              <div className="mt-8 space-y-3">
+                <a
+                  href="tel:+639696048041"
+                  className="flex items-center gap-3 group"
+                >
+                  <span className="w-1.5 h-1.5 rounded-full bg-orange flex-shrink-0" />
+                  <span
+                    className="text-gray-dust text-sm group-hover:text-orange transition-colors duration-300"
+                    style={{ fontFamily: "var(--font-poppins)" }}
+                  >
+                    +63 969 604 8041
+                  </span>
+                </a>
+                <a
+                  href="mailto:lsscorporation@betelgeusesolar.com"
+                  className="flex items-center gap-3 group"
+                >
+                  <span className="w-1.5 h-1.5 rounded-full bg-orange flex-shrink-0" />
+                  <span
+                    className="text-gray-dust text-sm group-hover:text-orange transition-colors duration-300 break-all"
+                    style={{ fontFamily: "var(--font-poppins)" }}
+                  >
+                    lsscorporation@betelgeusesolar.com
+                  </span>
+                </a>
+              </div>
             </div>
           </AnimatedSection>
 

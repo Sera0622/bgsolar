@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import BetelgeuseLogo from "./BetelgeuseLogo";
 
-const navLinks = ["Products", "How It Works", "About", "Contact"];
+const navLinks = ["Products", "How It Works", "Services", "About", "Contact"];
 
 export default function Nav() {
   const [scrolled, setScrolled] = useState(false);
