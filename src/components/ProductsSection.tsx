@@ -1,0 +1,333 @@
+"use client";
+
+import { useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
+import AnimatedSection from "./AnimatedSection";
+
+const products = [
+  {
+    id: "BETELGEUSE PRO",
+    tagline: "Performance without compromise",
+    efficiency: "23.8%",
+    output: "430W",
+    warranty: "30yr",
+    temp: "−0.26%/°C",
+    description:
+      "Our flagship monocrystalline panel. Engineered for maximum output in any condition, from urban rooftops to desert arrays. The PRO series delivers industry-leading conversion rates through our proprietary N-type cell architecture.",
+    accent: "#E8541A",
+    specs: [
+      { label: "Cell Type", value: "N-Type TOPCon" },
+      { label: "Dimensions", value: "1722 × 1134 × 30mm" },
+      { label: "Weight", value: "21.3 kg" },
+      { label: "Fire Rating", value: "Class A" },
+    ],
+  },
+  {
+    id: "BETELGEUSE LITE",
+    tagline: "Residential-grade intelligence",
+    efficiency: "21.4%",
+    output: "380W",
+    warranty: "25yr",
+    temp: "−0.29%/°C",
+    description:
+      "Precision-engineered for residential installations. The LITE series balances peak performance with aesthetic integration — all-black format, low-profile mounting, and seamless home energy management connectivity.",
+    accent: "#B0ABA6",
+    specs: [
+      { label: "Cell Type", value: "PERC Monocrystalline" },
+      { label: "Dimensions", value: "1650 × 1000 × 28mm" },
+      { label: "Weight", value: "18.7 kg" },
+      { label: "Fire Rating", value: "Class A" },
+    ],
+  },
+  {
+    id: "BETELGEUSE GRID",
+    tagline: "Utility-scale infrastructure",
+    efficiency: "22.6%",
+    output: "500W+",
+    warranty: "30yr",
+    temp: "−0.27%/°C",
+    description:
+      "Designed for commercial and utility-scale deployments. GRID delivers bifacial gain, advanced MLPE compatibility, and structural resilience rated for 6000 Pascal snow loads and 60 m/s wind speeds.",
+    accent: "#E8541A",
+    specs: [
+      { label: "Cell Type", value: "N-Type Bifacial" },
+      { label: "Dimensions", value: "2278 × 1134 × 35mm" },
+      { label: "Weight", value: "28.1 kg" },
+      { label: "Fire Rating", value: "Class A" },
+    ],
+  },
+];
+
+function PanelSVG({ color = "#E8541A" }: { color?: string }) {
+  return (
+    <svg viewBox="0 0 320 200" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full">
+      {/* Panel body */}
+      <rect x="10" y="10" width="300" height="180" rx="4" fill="#1A1917" stroke="#3D3B38" strokeWidth="1.5" />
+
+      {/* Grid cells - 4 columns × 3 rows */}
+      {[0, 1, 2, 3].map((col) =>
+        [0, 1, 2].map((row) => (
+          <rect
+            key={`${col}-${row}`}
+            x={22 + col * 72}
+            y={22 + row * 54}
+            width={62}
+            height={46}
+            rx="2"
+            fill={color}
+            fillOpacity={0.08 + row * 0.04}
+            stroke={color}
+            strokeWidth="0.5"
+            strokeOpacity="0.3"
+          />
+        ))
+      )}
+
+      {/* Bus bars */}
+      {[0, 1, 2, 3].map((col) => (
+        <line
+          key={`bus-${col}`}
+          x1={53 + col * 72}
+          y1={22}
+          x2={53 + col * 72}
+          y2={178}
+          stroke={color}
+          strokeWidth="0.5"
+          strokeOpacity="0.2"
+        />
+      ))}
+
+      {/* Junction box */}
+      <rect x="140" y="170" width="40" height="14" rx="2" fill="#3D3B38" />
+
+      {/* Glow overlay */}
+      <rect x="10" y="10" width="300" height="180" rx="4" fill={`url(#glow-${color.replace("#","")})`} />
+
+      <defs>
+        <radialGradient id={`glow-${color.replace("#","")}`} cx="50%" cy="30%" r="60%">
+          <stop offset="0%" stopColor={color} stopOpacity="0.06" />
+          <stop offset="100%" stopColor={color} stopOpacity="0" />
+        </radialGradient>
+      </defs>
+    </svg>
+  );
+}
+
+export default function ProductsSection() {
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
+
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start start", "end end"],
+  });
+
+  const x = useTransform(scrollYProgress, [0, 1], ["0%", "-60%"]);
+
+  return (
+    <section
+      id="products"
+      ref={sectionRef}
+      className="relative bg-gray-deep"
+      style={{ height: "250vh" }}
+    >
+      {/* Sticky container */}
+      <div className="sticky top-0 h-screen overflow-hidden">
+        {/* Header */}
+        <div className="relative pt-20 pb-8 px-6 lg:px-12 max-w-7xl mx-auto">
+          <AnimatedSection>
+            <p
+              className="text-orange text-xs font-bold tracking-[0.5em] uppercase mb-4"
+              style={{ fontFamily: "var(--font-poppins)" }}
+            >
+              Products
+            </p>
+          </AnimatedSection>
+
+          {/* Large decorative number */}
+          <div
+            className="absolute top-0 right-6 lg:right-12 select-none pointer-events-none font-black leading-none"
+            style={{
+              fontSize: "clamp(6rem, 18vw, 18rem)",
+              fontFamily: "var(--font-poppins)",
+              color: "#3D3B38",
+              opacity: 0.3,
+              lineHeight: 1,
+            }}
+            aria-hidden="true"
+          >
+            02
+          </div>
+
+          <div className="flex items-end justify-between">
+            <h2
+              className="font-black uppercase text-white-star leading-none"
+              style={{
+                fontSize: "clamp(2rem, 4vw, 4.5rem)",
+                fontFamily: "var(--font-poppins)",
+                letterSpacing: "-0.02em",
+              }}
+            >
+              Our Systems
+            </h2>
+            <span
+              className="text-gray-muted text-sm tracking-widest hidden md:block"
+              style={{ fontFamily: "var(--font-poppins)" }}
+            >
+              DRAG →
+            </span>
+          </div>
+        </div>
+
+        {/* Horizontal scroll track */}
+        <div className="overflow-hidden px-6 lg:px-12">
+          <motion.div
+            ref={trackRef}
+            style={{ x }}
+            className="flex gap-6"
+            drag="x"
+            dragConstraints={{ right: 0, left: -1200 }}
+          >
+            {products.map((product, i) => (
+              <motion.article
+                key={product.id}
+                initial={{ opacity: 0, y: 60 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{
+                  duration: 0.8,
+                  delay: i * 0.15,
+                  ease: [0.16, 1, 0.3, 1],
+                }}
+                viewport={{ once: true }}
+                className="flex-shrink-0 w-[min(420px,85vw)] bg-gray-mid rounded-sm overflow-hidden border border-gray-mid/50 group"
+                style={{ borderColor: "rgba(61,59,56,0.5)" }}
+              >
+                {/* Panel illustration */}
+                <div className="relative p-8 bg-gray-deep/50 overflow-hidden">
+                  <motion.div
+                    whileHover={{ scale: 1.02 }}
+                    transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                  >
+                    <PanelSVG color={product.accent} />
+                  </motion.div>
+                  {/* Clip reveal overlay */}
+                  <motion.div
+                    initial={{ scaleX: 1 }}
+                    whileInView={{ scaleX: 0 }}
+                    transition={{
+                      duration: 0.8,
+                      delay: i * 0.2 + 0.3,
+                      ease: [0.16, 1, 0.3, 1],
+                    }}
+                    viewport={{ once: true }}
+                    className="absolute inset-0 bg-gray-mid origin-right"
+                  />
+                </div>
+
+                {/* Card content */}
+                <div className="p-8 space-y-6">
+                  <div>
+                    <h3
+                      className="font-black text-2xl uppercase text-white-star tracking-wide"
+                      style={{ fontFamily: "var(--font-poppins)" }}
+                    >
+                      {product.id}
+                    </h3>
+                    <p
+                      className="text-gray-muted text-sm mt-1"
+                      style={{ fontFamily: "var(--font-poppins)" }}
+                    >
+                      {product.tagline}
+                    </p>
+                  </div>
+
+                  {/* Key metrics */}
+                  <div className="grid grid-cols-3 gap-4">
+                    {[
+                      { label: "Efficiency", value: product.efficiency },
+                      { label: "Output", value: product.output },
+                      { label: "Warranty", value: product.warranty },
+                    ].map((m) => (
+                      <div key={m.label}>
+                        <div
+                          className="font-black text-xl"
+                          style={{ color: product.accent, fontFamily: "var(--font-poppins)" }}
+                        >
+                          {m.value}
+                        </div>
+                        <div
+                          className="text-gray-muted text-xs tracking-widest uppercase"
+                          style={{ fontFamily: "var(--font-poppins)" }}
+                        >
+                          {m.label}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  <p
+                    className="text-gray-dust text-sm leading-relaxed"
+                    style={{ fontFamily: "var(--font-poppins)", fontWeight: 400 }}
+                  >
+                    {product.description}
+                  </p>
+
+                  {/* Spec list */}
+                  <ul className="space-y-2 border-t border-gray-deep pt-4">
+                    {product.specs.map((spec) => (
+                      <li key={spec.label} className="flex justify-between items-center">
+                        <span
+                          className="text-gray-muted text-xs tracking-wider"
+                          style={{ fontFamily: "var(--font-poppins)" }}
+                        >
+                          <span
+                            className="inline-block w-1.5 h-1.5 rounded-full mr-2"
+                            style={{ backgroundColor: product.accent }}
+                          />
+                          {spec.label}
+                        </span>
+                        <span
+                          className="text-white-star text-xs font-bold"
+                          style={{ fontFamily: "var(--font-poppins)" }}
+                        >
+                          {spec.value}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+
+                  <a
+                    href="#contact"
+                    className="block text-center border py-3 text-xs font-bold tracking-widest uppercase transition-all duration-300"
+                    style={{
+                      borderColor: product.accent,
+                      color: product.accent,
+                      fontFamily: "var(--font-poppins)",
+                    }}
+                    onMouseEnter={(e) => {
+                      (e.currentTarget as HTMLAnchorElement).style.background = product.accent;
+                      (e.currentTarget as HTMLAnchorElement).style.color = "#1A1917";
+                    }}
+                    onMouseLeave={(e) => {
+                      (e.currentTarget as HTMLAnchorElement).style.background = "transparent";
+                      (e.currentTarget as HTMLAnchorElement).style.color = product.accent;
+                    }}
+                  >
+                    Request Datasheet
+                  </a>
+                </div>
+              </motion.article>
+            ))}
+          </motion.div>
+        </div>
+
+        {/* Progress indicator */}
+        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex gap-2">
+          {products.map((_, i) => (
+            <div key={i} className="w-8 h-0.5 bg-gray-mid" />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}

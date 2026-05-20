@@ -1,0 +1,129 @@
+@import "tailwindcss";
+
+@theme {
+  --color-orange: #E8541A;
+  --color-orange-light: #F2784B;
+  --color-orange-glow: rgba(232, 84, 26, 0.25);
+  --color-gray-deep: #1A1917;
+  --color-gray-mid: #3D3B38;
+  --color-gray-muted: #7A7572;
+  --color-gray-dust: #B0ABA6;
+  --color-white-star: #F7F4F0;
+
+  --font-poppins: 'Poppins', sans-serif;
+}
+
+:root {
+  --background: #1A1917;
+  --foreground: #F7F4F0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background: #1A1917;
+  color: #F7F4F0;
+}
+
+body {
+  background: #1A1917;
+  color: #F7F4F0;
+  font-family: 'Poppins', sans-serif;
+  overflow-x: hidden;
+  cursor: none;
+}
+
+/* Custom cursor */
+*, *::before, *::after {
+  cursor: none !important;
+}
+
+/* Smooth scroll handled by Lenis */
+html.lenis {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+/* Orange glow utility */
+.orange-glow {
+  box-shadow: 0 0 60px rgba(232, 84, 26, 0.25), 0 0 120px rgba(232, 84, 26, 0.1);
+}
+
+/* Noise texture */
+.noise-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 999;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 128px 128px;
+}
+
+/* Horizontal scroll section */
+.horizontal-scroll-track {
+  display: flex;
+  gap: 2rem;
+  padding: 2rem;
+  will-change: transform;
+}
+
+/* Section number decoration */
+.section-num {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 900;
+  font-size: clamp(8rem, 20vw, 20rem);
+  color: #3D3B38;
+  line-height: 1;
+  user-select: none;
+  pointer-events: none;
+}
+
+/* Animated connecting line */
+@keyframes drawLine {
+  from { height: 0; }
+  to { height: 100%; }
+}
+
+/* Star grid background */
+.solar-grid-bg {
+  background-image:
+    linear-gradient(rgba(232, 84, 26, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(232, 84, 26, 0.04) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+/* Clip path for image reveal */
+.clip-reveal {
+  clip-path: inset(0 100% 0 0);
+}
+
+/* Magnetic button base */
+.magnetic-btn {
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
