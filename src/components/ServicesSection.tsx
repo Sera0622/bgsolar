@@ -192,7 +192,7 @@ export default function ServicesSection() {
               className="text-gray-muted text-sm"
               style={{ fontFamily: "var(--font-poppins)" }}
             >
-              ₱50 for quotation only · Response within 24 hours
+              ₱50 for quotation only · GCash: 0969 604 8041 · Response within 24 hours
             </p>
           </div>
         </AnimatedSection>
