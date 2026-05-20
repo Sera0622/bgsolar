@@ -32,12 +32,6 @@ body {
   color: #F7F4F0;
   font-family: 'Poppins', sans-serif;
   overflow-x: hidden;
-  cursor: none;
-}
-
-/* Custom cursor */
-*, *::before, *::after {
-  cursor: none !important;
 }
 
 /* Smooth scroll handled by Lenis */

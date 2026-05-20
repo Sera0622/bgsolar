@@ -9,15 +9,13 @@ import TestimonialsSection from "@/components/TestimonialsSection";
 import ContactSection from "@/components/ContactSection";
 import CTABanner from "@/components/CTABanner";
 import Footer from "@/components/Footer";
-import MagneticCursor from "@/components/MagneticCursor";
 import NoiseOverlay from "@/components/NoiseOverlay";
 import LenisProvider from "@/components/LenisProvider";
 
 export default function Home() {
   return (
     <LenisProvider>
-      <MagneticCursor />
-      <NoiseOverlay />
+<NoiseOverlay />
       <Nav />
       <main>
         <HeroSection />
