@@ -2,6 +2,7 @@
 
 import { useState, useRef } from "react";
 import { motion } from "framer-motion";
+import emailjs from "@emailjs/browser";
 import AnimatedSection from "./AnimatedSection";
 
 const scheduleOptions = [
@@ -55,18 +56,23 @@ export default function ContactSection() {
     e.preventDefault();
     setStatus("submitting");
 
-    const data = new FormData();
-    data.append("name", form.name);
-    data.append("email", form.email);
-    data.append("message", form.message);
-    data.append("schedule", form.schedule);
-    data.append("inspection", String(form.inspection));
-    if (image) data.append("image", image);
-
     try {
-      const res = await fetch("/api/contact", { method: "POST", body: data });
-      const json = await res.json();
-      setStatus(json.success ? "success" : "error");
+      await emailjs.send(
+        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
+        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
+        {
+          from_name:  form.name,
+          from_email: form.email,
+          message:    form.message,
+          schedule:   form.schedule || "Not specified",
+          inspection: form.inspection ? "Yes — Site visit requested" : "No",
+          has_image:  image
+            ? `Yes — customer has a GCash screenshot (${image.name}). Please follow up to collect it.`
+            : "No screenshot uploaded",
+        },
+        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!
+      );
+      setStatus("success");
     } catch {
       setStatus("error");
     }
