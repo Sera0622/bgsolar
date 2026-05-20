@@ -116,9 +116,9 @@ export default function ServicesSection() {
                   className="text-gray-dust text-xs mt-3 leading-relaxed"
                   style={{ fontFamily: "var(--font-poppins)", fontWeight: 400 }}
                 >
-                  One-time processing fee.
+                  For quotation only.
                   <br />
-                  Full site assessment included.
+                  Site assessment is separate.
                 </p>
               </div>
             </AnimatedSection>
@@ -192,7 +192,7 @@ export default function ServicesSection() {
               className="text-gray-muted text-sm"
               style={{ fontFamily: "var(--font-poppins)" }}
             >
-              ₱50 processing fee · Response within 24 hours
+              ₱50 for quotation only · Response within 24 hours
             </p>
           </div>
         </AnimatedSection>

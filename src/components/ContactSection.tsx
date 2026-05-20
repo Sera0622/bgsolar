@@ -340,7 +340,7 @@ export default function ContactSection() {
                     className="text-gray-muted text-xs leading-relaxed"
                     style={{ fontFamily: "var(--font-poppins)" }}
                   >
-                    Quotation processing fee. Payable upon confirmation via GCash only.
+                    For quotation only. Payable via GCash upon confirmation.
                   </span>
                 </div>
 
