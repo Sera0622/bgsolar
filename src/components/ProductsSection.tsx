@@ -1,7 +1,6 @@
 "use client";
 
-import { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion } from "framer-motion";
 import AnimatedSection from "./AnimatedSection";
 
 const products = [
@@ -114,27 +113,14 @@ function PanelSVG({ color = "#E8541A" }: { color?: string }) {
 }
 
 export default function ProductsSection() {
-  const sectionRef = useRef<HTMLDivElement>(null);
-  const trackRef = useRef<HTMLDivElement>(null);
-
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start start", "end end"],
-  });
-
-  const x = useTransform(scrollYProgress, [0, 1], ["0%", "-60%"]);
-
   return (
     <section
       id="products"
-      ref={sectionRef}
-      className="relative bg-gray-deep"
-      style={{ height: "250vh" }}
+      className="relative bg-gray-deep py-32 md:py-48"
     >
-      {/* Sticky container */}
-      <div className="sticky top-0 h-screen overflow-hidden">
+      <div className="relative max-w-7xl mx-auto px-6 lg:px-12">
         {/* Header */}
-        <div className="relative pt-20 pb-8 px-6 lg:px-12 max-w-7xl mx-auto">
+        <div className="relative mb-16">
           <AnimatedSection>
             <p
               className="text-orange text-xs font-bold tracking-[0.5em] uppercase mb-4"
@@ -146,7 +132,7 @@ export default function ProductsSection() {
 
           {/* Large decorative number */}
           <div
-            className="absolute top-0 right-6 lg:right-12 select-none pointer-events-none font-black leading-none"
+            className="absolute top-0 right-0 select-none pointer-events-none font-black leading-none"
             style={{
               fontSize: "clamp(6rem, 18vw, 18rem)",
               fontFamily: "var(--font-poppins)",
@@ -159,7 +145,7 @@ export default function ProductsSection() {
             02
           </div>
 
-          <div className="flex items-end justify-between">
+          <AnimatedSection delay={0.1}>
             <h2
               className="font-black uppercase text-white-star leading-none"
               style={{
@@ -170,38 +156,25 @@ export default function ProductsSection() {
             >
               Our Systems
             </h2>
-            <span
-              className="text-gray-muted text-sm tracking-widest hidden md:block"
-              style={{ fontFamily: "var(--font-poppins)" }}
-            >
-              DRAG →
-            </span>
-          </div>
+          </AnimatedSection>
         </div>
 
-        {/* Horizontal scroll track */}
-        <div className="overflow-hidden px-6 lg:px-12">
-          <motion.div
-            ref={trackRef}
-            style={{ x }}
-            className="flex gap-6"
-            drag="x"
-            dragConstraints={{ right: 0, left: -1200 }}
-          >
-            {products.map((product, i) => (
-              <motion.article
-                key={product.id}
-                initial={{ opacity: 0, y: 60 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{
-                  duration: 0.8,
-                  delay: i * 0.15,
-                  ease: [0.16, 1, 0.3, 1],
-                }}
-                viewport={{ once: true }}
-                className="flex-shrink-0 w-[min(420px,85vw)] bg-gray-mid rounded-sm overflow-hidden border border-gray-mid/50 group"
-                style={{ borderColor: "rgba(61,59,56,0.5)" }}
-              >
+        {/* Cards grid */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {products.map((product, i) => (
+            <motion.article
+              key={product.id}
+              initial={{ opacity: 0, y: 60 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{
+                duration: 0.8,
+                delay: i * 0.15,
+                ease: [0.16, 1, 0.3, 1],
+              }}
+              viewport={{ once: true, margin: "-80px" }}
+              className="bg-gray-mid rounded-sm overflow-hidden border group"
+              style={{ borderColor: "rgba(61,59,56,0.5)" }}
+            >
                 {/* Panel illustration */}
                 <div className="relative p-8 bg-gray-deep/50 overflow-hidden">
                   <motion.div
@@ -318,14 +291,6 @@ export default function ProductsSection() {
                 </div>
               </motion.article>
             ))}
-          </motion.div>
-        </div>
-
-        {/* Progress indicator */}
-        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex gap-2">
-          {products.map((_, i) => (
-            <div key={i} className="w-8 h-0.5 bg-gray-mid" />
-          ))}
         </div>
       </div>
     </section>
