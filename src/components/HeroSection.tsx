@@ -42,16 +42,16 @@ export default function HeroSection() {
         <h1
           className="font-black uppercase leading-none text-white-star mb-4"
           style={{
-            fontSize: "clamp(3rem, 8vw, 9rem)",
+            fontSize: "clamp(2.5rem, 6vw, 6rem)",
             fontFamily: "var(--font-poppins)",
             letterSpacing: "-0.02em",
             lineHeight: 0.9,
           }}
         >
-          <span className="block overflow-hidden">
+          <span className="block overflow-hidden" style={{ whiteSpace: "nowrap" }}>
             <SplitText text="OWN YOUR" splitBy="chars" delay={0.5} />
           </span>
-          <span className="block overflow-hidden" style={{ color: "#E8541A" }}>
+          <span className="block overflow-hidden" style={{ color: "#E8541A", whiteSpace: "nowrap" }}>
             <SplitText text="ENERGY" splitBy="chars" delay={0.9} />
           </span>
         </h1>
