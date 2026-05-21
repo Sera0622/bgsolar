@@ -42,7 +42,7 @@ export default function HeroSection() {
         <h1
           className="font-black uppercase leading-none text-white-star mb-4"
           style={{
-            fontSize: "clamp(4rem, 11vw, 13rem)",
+            fontSize: "clamp(3rem, 8vw, 9rem)",
             fontFamily: "var(--font-poppins)",
             letterSpacing: "-0.02em",
             lineHeight: 0.9,
