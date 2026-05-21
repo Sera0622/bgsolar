@@ -5,7 +5,7 @@ import AnimatedSection from "./AnimatedSection";
 
 const products = [
   {
-    id: "OFF GRID / ON GRID",
+    id: "Off/On-Grid",
     tagline: "Energy independence, your way",
     efficiency: "Up to 98%",
     output: "1–20kW",
@@ -22,7 +22,7 @@ const products = [
     ],
   },
   {
-    id: "NET METERING",
+    id: "Net Metering",
     tagline: "Let your meter run backwards",
     efficiency: "Up to 95%",
     output: "3–30kW",
@@ -39,7 +39,7 @@ const products = [
     ],
   },
   {
-    id: "HYBRID",
+    id: "Hybrid",
     tagline: "Power through any outage",
     efficiency: "Up to 97%",
     output: "3–50kW",
