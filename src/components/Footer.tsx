@@ -5,7 +5,7 @@ import AnimatedSection from "./AnimatedSection";
 import BetelgeuseLogo from "./BetelgeuseLogo";
 
 const footerLinks = {
-  Products: ["BETELGEUSE PRO", "BETELGEUSE LITE", "BETELGEUSE GRID", "Accessories"],
+  Products: ["Off/On-Grid", "Net Metering", "Hybrid"],
   Company: ["About", "Careers", "Press", "Partners"],
   Resources: ["Case Studies", "White Papers", "Support", "BETELGEUSE Connect"],
   Legal: ["Privacy Policy", "Terms of Service", "Warranty Terms", "Compliance"],
