@@ -5,24 +5,27 @@ import AnimatedSection from "./AnimatedSection";
 
 const testimonials = [
   {
+    system: "Hybrid System",
     quote:
-      "BETELGEUSE didn't just install panels — they installed a system. The monitoring data alone has saved us thousands in avoided degradation. 18 months in and we're running at 99.3% of projected yield.",
+      "Our Meralco bill used to hit ₱8,000 a month. After Betelgeuse installed our hybrid system, it dropped to under ₱800. And during the last brownout in our area, our house was the only one with lights on. Best decision we ever made.",
     name: "Syra Mae Escudero",
     role: "PRULIFE Assistant Unit Manager",
     location: "Alfonso, Cavite",
     stars: 5,
   },
   {
+    system: "Net Metering",
     quote:
-      "We specified BETELGEUSE PRO across three commercial buildings after exhaustive competitive testing. The thermal coefficient advantage over competitor N-type panels is measurable and meaningful at our scale.",
+      "The net metering setup was completely seamless. The Betelgeuse team handled all the Meralco paperwork and scheduling — I didn't lift a finger. Now my meter literally runs backwards every sunny day and my bill is almost zero.",
     name: "Rochie Solomon",
     role: "Head of DI33",
     location: "Muntinlupa, Metro Manila",
     stars: 5,
   },
   {
+    system: "On-Grid System",
     quote:
-      "From site assessment to grid connection: 19 days total. The process was faster and more transparent than anything I'd experienced in 12 years of construction project management.",
+      "I'm always travelling for work so I needed something reliable with remote monitoring. Betelgeuse installed an on-grid system and I can check my production data from anywhere in the world. The installation was done in two days — clean and professional.",
     name: "Danielle De Borja",
     role: "Independent Pilot",
     location: "Pacita, Biñan",
@@ -106,6 +109,16 @@ export default function TestimonialsSection() {
               className="relative p-8 bg-gray-mid/30 border border-gray-mid/40 group hover:border-orange/30 transition-colors duration-500"
               style={{ background: "rgba(61,59,56,0.2)" }}
             >
+              {/* System badge */}
+              <div className="mb-6">
+                <span
+                  className="inline-block text-orange text-xs font-bold tracking-widest uppercase border border-orange/30 px-3 py-1"
+                  style={{ fontFamily: "var(--font-poppins)", background: "rgba(232,84,26,0.08)" }}
+                >
+                  {t.system}
+                </span>
+              </div>
+
               {/* Large quotation mark */}
               <div
                 className="text-orange font-black leading-none mb-6 select-none"
