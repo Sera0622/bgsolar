@@ -49,10 +49,10 @@ export default function HeroSection() {
           }}
         >
           <span className="block overflow-hidden">
-            <SplitText text="HARVEST" splitBy="chars" delay={0.5} />
+            <SplitText text="OWN YOUR" splitBy="chars" delay={0.5} />
           </span>
           <span className="block overflow-hidden" style={{ color: "#E8541A" }}>
-            <SplitText text="THE SUN" splitBy="chars" delay={0.9} />
+            <SplitText text="ENERGY" splitBy="chars" delay={0.9} />
           </span>
         </h1>
 
@@ -64,9 +64,9 @@ export default function HeroSection() {
           className="text-gray-dust text-lg md:text-xl max-w-2xl mx-auto mt-10 leading-relaxed font-normal"
           style={{ fontFamily: "var(--font-poppins)" }}
         >
-          Next-generation advanced systems designed for the future.
+          Cut your Meralco bill. Power through brownouts.
           <br />
-          Maximum yield. Zero compromise.
+          Go solar with Betelgeuse.
         </motion.p>
 
         {/* CTAs */}
@@ -77,19 +77,19 @@ export default function HeroSection() {
           className="flex flex-col sm:flex-row gap-4 justify-center mt-12"
         >
           <a
-            href="#products"
+            href="#contact"
             className="relative overflow-hidden bg-orange text-gray-deep px-10 py-4 font-bold tracking-widest uppercase text-sm group"
             style={{ fontFamily: "var(--font-poppins)" }}
           >
-            <span className="relative z-10">Explore Products</span>
+            <span className="relative z-10">Get a Free Quote</span>
             <span className="absolute inset-0 bg-orange-light translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]" />
           </a>
           <a
-            href="#how-it-works"
+            href="#products"
             className="border border-gray-mid text-white-star px-10 py-4 font-bold tracking-widest uppercase text-sm hover:border-orange hover:text-orange transition-colors duration-300"
             style={{ fontFamily: "var(--font-poppins)" }}
           >
-            How It Works
+            Our Systems
           </a>
         </motion.div>
       </motion.div>
