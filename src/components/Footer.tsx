@@ -5,7 +5,7 @@ import AnimatedSection from "./AnimatedSection";
 import BetelgeuseLogo from "./BetelgeuseLogo";
 
 const footerLinks = {
-  Products: ["Batteries", "Inverters", "Solar Panels"],
+  Products: ["Batteries", "Inverters", "Solar Panels", "Accessories"],
   Company: ["About", "Careers", "Press", "Partners"],
   Resources: ["Case Studies", "White Papers", "Support", "BETELGEUSE Connect"],
   Legal: ["Privacy Policy", "Terms of Service", "Warranty Terms", "Compliance"],
@@ -163,7 +163,7 @@ export default function Footer() {
             className="text-gray-muted text-xs"
             style={{ fontFamily: "var(--font-poppins)" }}
           >
-            © 2026 LCC Development Corp. All rights reserved.
+            © 2026 LCC Development Corporation. All rights reserved.
           </p>
           <div className="flex items-center gap-3 text-gray-muted text-xs" style={{ fontFamily: "var(--font-poppins)" }}>
             <span>Privacy</span>
