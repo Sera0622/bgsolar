@@ -12,9 +12,9 @@ const steps = [
   },
   {
     num: "02",
-    title: "Pay the ₱50 Quotation Fee",
+    title: "Wait for Our Response",
     description:
-      "Send ₱50 via GCash to 0969 604 8041. Once done, screenshot your GCash payment confirmation and send it to our Viber as proof of payment.",
+      "Our team will review your Meralco bill and prepare a detailed solar quotation tailored to your home — completely free of charge.",
   },
   {
     num: "03",
@@ -228,13 +228,13 @@ export default function ContactSection() {
                 </div>
                 <div>
                   <p className="text-gray-muted text-xs tracking-widest uppercase mb-1" style={{ fontFamily: "var(--font-poppins)" }}>
-                    GCash Payment
+                    Quotation
                   </p>
-                  <p className="text-white-star font-black text-lg" style={{ fontFamily: "var(--font-poppins)" }}>
-                    0969 604 8041
+                  <p className="text-orange font-black text-lg" style={{ fontFamily: "var(--font-poppins)" }}>
+                    FREE
                   </p>
                   <p className="text-gray-dust text-xs mt-1 leading-relaxed" style={{ fontFamily: "var(--font-poppins)", fontWeight: 400 }}>
-                    Send <span className="text-orange font-bold">₱50</span> for quotation · Screenshot your receipt and send it via Viber
+                    Just send your Meralco bill via Viber — no payment needed
                   </p>
                 </div>
               </div>

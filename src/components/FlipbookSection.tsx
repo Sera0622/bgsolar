@@ -158,7 +158,7 @@ const P1Hero = forwardRef<HTMLDivElement>((_, ref) => {
             fontWeight:900, fontSize:9, letterSpacing:"0.2em", textTransform:"uppercase",
             padding:"10px 0", textDecoration:"none", textAlign:"center",
             display:"block" }}>
-            GET A QUOTE · ₱50
+            GET A FREE QUOTE
           </a>
           <a href="#products" style={{ border:`1px solid rgba(232,84,26,0.35)`,
             color:L, fontFamily:"sans-serif", fontWeight:700, fontSize:9,
@@ -202,7 +202,7 @@ const P2Stats = forwardRef<HTMLDivElement>((_, ref) => (
           { val:"90%",     label:"Efficiency Rate" },
           { val:"50+",     label:"Homes Powered" },
           { val:"3–5 yr",  label:"Average ROI Period" },
-          { val:"₱50",     label:"Quote Fee" },
+          { val:"FREE",    label:"Quotation" },
           { val:"24 hrs",  label:"Quote Turnaround" },
         ].map(({ val, label }) => (
           <div key={label} style={{ background:"rgba(232,84,26,0.06)",
@@ -553,11 +553,11 @@ const P12ServB = forwardRef<HTMLDivElement>((_, ref) => (
         borderRadius:6, padding:"14px", textAlign:"center" }}>
         <div style={{ fontFamily:"sans-serif", fontSize:9, color:M,
           textTransform:"uppercase", letterSpacing:"0.2em", marginBottom:4 }}>
-          Quotation Request Fee
+          Quotation
         </div>
-        <div style={{ fontFamily:"sans-serif", fontWeight:900, fontSize:32, color:O, lineHeight:1 }}>₱50</div>
-        <div style={{ fontFamily:"sans-serif", fontSize:10, color:M, marginTop:4 }}>
-          via GCash · 0969 604 8041
+        <div style={{ fontFamily:"sans-serif", fontWeight:900, fontSize:28, color:O, lineHeight:1 }}>FREE</div>
+        <div style={{ fontFamily:"sans-serif", fontSize:10, color:M, marginTop:6, lineHeight:1.5 }}>
+          Send your Meralco bill via Viber<br />+63 969 604 8041
         </div>
       </div>
       <PageNum n={12} total={TOTAL} />
@@ -649,7 +649,7 @@ const P16WhyUs = forwardRef<HTMLDivElement>((_, ref) => (
         { icon:"🇵🇭", title:"100% Filipino", desc:"Local team, local expertise. We understand Philippine conditions and Meralco rules." },
         { icon:"📋", title:"Net Metering Experts", desc:"We handle all Meralco paperwork and ERC applications for you — stress-free." },
         { icon:"🛡️", title:"25-Year Warranty", desc:"Industry-leading panel warranty and 10-year inverter warranty for peace of mind." },
-        { icon:"💰", title:"₱50 Quotation", desc:"Get a detailed, personalized quote for just ₱50 via GCash — response in 24 hours." },
+        { icon:"💰", title:"Free Quotation", desc:"Get a detailed, personalized quote for free — just send your Meralco bill via Viber and we'll respond within 24 hours." },
       ].map(({ icon, title, desc }) => (
         <div key={title} style={{ display:"flex", gap:12, marginBottom:14 }}>
           <div style={{ fontSize:16, flexShrink:0, marginTop:-1 }}>{icon}</div>
@@ -685,7 +685,7 @@ const P17Contact = forwardRef<HTMLDivElement>((_, ref) => (
         {[
           { label:"Viber / Call", value:"+63 969 604 8041" },
           { label:"Email", value:"lsscorporation@\nbetelgeusesolar.com" },
-          { label:"Quote Fee", value:"₱50 via GCash" },
+          { label:"Quotation", value:"FREE" },
           { label:"Response Time", value:"Within 24 hours" },
         ].map(({ label, value }) => (
           <div key={label}>

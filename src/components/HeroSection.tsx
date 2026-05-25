@@ -153,7 +153,7 @@ export default function HeroSection() {
             className="relative overflow-hidden bg-orange text-gray-deep px-10 py-4 font-bold tracking-widest uppercase text-sm group"
             style={{ fontFamily: "var(--font-poppins)" }}
           >
-            <span className="relative z-10">Get a Quote for as low as ₱50</span>
+            <span className="relative z-10">Get a Free Quote</span>
             <span className="absolute inset-0 bg-orange-light translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]" />
           </a>
           <a

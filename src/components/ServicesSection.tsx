@@ -101,7 +101,7 @@ export default function ServicesSection() {
                   className="text-gray-muted text-xs tracking-widest uppercase mb-2"
                   style={{ fontFamily: "var(--font-poppins)" }}
                 >
-                  Quotation Request Fee
+                  Quotation
                 </p>
                 <p
                   className="font-black text-orange leading-none"
@@ -110,15 +110,15 @@ export default function ServicesSection() {
                     fontFamily: "var(--font-poppins)",
                   }}
                 >
-                  ₱50
+                  FREE
                 </p>
                 <p
                   className="text-gray-dust text-xs mt-3 leading-relaxed"
                   style={{ fontFamily: "var(--font-poppins)", fontWeight: 400 }}
                 >
-                  For quotation only.
+                  Send your Meralco bill via Viber.
                   <br />
-                  Site assessment is separate.
+                  We'll respond within 24 hours.
                 </p>
               </div>
             </AnimatedSection>
@@ -192,7 +192,7 @@ export default function ServicesSection() {
               className="text-gray-muted text-sm"
               style={{ fontFamily: "var(--font-poppins)" }}
             >
-              ₱50 for quotation only · GCash: 0969 604 8041 · Response within 24 hours
+              Free quotation · Send your Meralco bill via Viber · Response within 24 hours
             </p>
           </div>
         </AnimatedSection>
