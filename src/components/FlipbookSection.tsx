@@ -5,7 +5,6 @@ import dynamic from "next/dynamic";
 import { motion, AnimatePresence } from "framer-motion";
 
 const flipWords = ["ENERGY", "SAVINGS", "YOUR HOME", "YOUR FUTURE", "POWER"];
-import AnimatedSection from "./AnimatedSection";
 
 /* ─── Dynamic import — react-pageflip uses browser DOM APIs ─── */
 const HTMLFlipBook = dynamic(() => import("react-pageflip"), { ssr: false });
@@ -714,160 +713,191 @@ const P17Contact = forwardRef<HTMLDivElement>((_, ref) => (
 P17Contact.displayName = "P17Contact";
 
 /* ══════════════════════════════════════════════
-   MAIN SECTION
+   MAIN SECTION — full-screen flipbook
 ══════════════════════════════════════════════ */
+
+/* Responsive page dimensions */
+function useBookDims() {
+  const [dims, setDims] = useState({ w: 380, h: 535, portrait: false });
+
+  useEffect(() => {
+    function calc() {
+      const NAV   = 64;   // nav height in px
+      const CTRL  = 96;   // controls bar height
+      const PAD   = 24;   // vertical breathing room
+
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+      const avail = vh - NAV - CTRL - PAD;
+
+      const mobile = vw < 720;
+
+      if (mobile) {
+        // Single page, fills most of width
+        const w = Math.min(vw - 32, 400);
+        const h = Math.min(Math.floor(w * 1.41), avail);
+        setDims({ w, h, portrait: true });
+      } else {
+        // Two pages side by side — each page ≈ 42% of viewport width
+        const w = Math.min(Math.floor(vw * 0.42), 540);
+        const h = Math.min(Math.floor(w * 1.41), avail);
+        setDims({ w, h, portrait: false });
+      }
+    }
+
+    calc();
+    window.addEventListener("resize", calc);
+    return () => window.removeEventListener("resize", calc);
+  }, []);
+
+  return dims;
+}
+
 export default function FlipbookSection() {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const bookRef = useRef<any>(null);
+  const bookRef  = useRef<any>(null);
   const [page, setPage] = useState(0);
   const [isClient, setIsClient] = useState(false);
+  const dims = useBookDims();
 
   useEffect(() => { setIsClient(true); }, []);
 
   const onFlip = useCallback((e: { data: number }) => { setPage(e.data); }, []);
-
   const goNext = () => bookRef.current?.pageFlip().flipNext();
   const goPrev = () => bookRef.current?.pageFlip().flipPrev();
+  const jumpTo = (i: number) => {
+    const diff = i - page;
+    if (diff > 0) for (let k = 0; k < diff; k++) bookRef.current?.pageFlip().flipNext();
+    else          for (let k = 0; k < -diff; k++) bookRef.current?.pageFlip().flipPrev();
+  };
 
   const atStart = page === 0;
   const atEnd   = page >= TOTAL - 1;
 
   return (
-    <section id="catalog" style={{ background:C2, padding:"80px 0 100px" }}>
-      <div style={{ maxWidth:1200, margin:"0 auto", padding:"0 24px" }}>
+    <section
+      id="catalog"
+      style={{
+        background: C2,
+        minHeight: "calc(100vh - 64px)",   /* 64px = nav height */
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        overflow: "hidden",
+        padding: "12px 16px 0",
+        boxSizing: "border-box",
+      }}
+    >
+      {/* ── Book ── */}
+      <div style={{ filter:"drop-shadow(0 28px 56px rgba(0,0,0,0.8))", flexShrink:0 }}>
+        {isClient && (
+          <HTMLFlipBook
+            ref={bookRef}
+            width={dims.w}
+            height={dims.h}
+            size="fixed"
+            minWidth={240}
+            maxWidth={600}
+            minHeight={340}
+            maxHeight={860}
+            showCover={true}
+            mobileScrollSupport={true}
+            onFlip={onFlip}
+            style={{ margin:"0 auto" }}
+            startPage={0}
+            drawShadow={true}
+            flippingTime={650}
+            usePortrait={dims.portrait}
+            startZIndex={0}
+            autoSize={false}
+            clickEventForward={true}
+            useMouseEvents={true}
+            swipeDistance={20}
+            showPageCorners={true}
+            disableFlipByClick={false}
+            maxShadowOpacity={0.5}
+            className=""
+          >
+            <P1Hero />
+            <P2Stats />
+            <P3Story />
+            <P4Vision />
+            <P5Mission />
+            <P6HowA />
+            <P7HowB />
+            <P8OffGrid />
+            <P9NetMeter />
+            <P10Hybrid />
+            <P11ServA />
+            <P12ServB />
+            <P13Testi1 />
+            <P14Testi2 />
+            <P15Testi3 />
+            <P16WhyUs />
+            <P17Contact />
+          </HTMLFlipBook>
+        )}
+      </div>
 
-        {/* Header */}
-        <AnimatedSection>
-          <div style={{ textAlign:"center", marginBottom:52 }}>
-            <div style={{ display:"inline-block", background:O, color:D, fontFamily:"sans-serif",
-              fontWeight:900, fontSize:10, letterSpacing:"0.25em", textTransform:"uppercase",
-              padding:"4px 14px", borderRadius:2, marginBottom:14 }}>
-              Digital Brochure
-            </div>
-            <div style={{ fontFamily:"sans-serif", fontWeight:900,
-              fontSize:"clamp(1.8rem, 4vw, 3rem)", color:L, textTransform:"uppercase",
-              letterSpacing:"-0.02em", lineHeight:1.05, marginBottom:10 }}>
-              FLIP THROUGH OUR{" "}<span style={{ color:O }}>FULL CATALOG</span>
-            </div>
-            <div style={{ fontFamily:"sans-serif", fontSize:14, color:M,
-              maxWidth:460, margin:"0 auto", lineHeight:1.6 }}>
-              Our story, products, services, testimonials, and contact — all in one interactive flipbook. Drag or click the page edges to turn.
-            </div>
-          </div>
-        </AnimatedSection>
+      {/* ── Controls bar ── */}
+      <div style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        gap: 10,
+        paddingTop: 14,
+        paddingBottom: 14,
+        flexShrink: 0,
+      }}>
+        {/* Prev / counter / Next */}
+        <div style={{ display:"flex", alignItems:"center", gap:16 }}>
+          <button onClick={goPrev} disabled={atStart} aria-label="Previous page"
+            style={{ width:40, height:40, borderRadius:"50%",
+              border:`1px solid ${atStart ? "rgba(232,84,26,0.18)" : O}`,
+              background:"transparent",
+              color:atStart ? "rgba(232,84,26,0.25)" : O,
+              cursor:atStart ? "not-allowed" : "pointer",
+              fontSize:20, display:"flex", alignItems:"center", justifyContent:"center",
+              transition:"all 0.2s" }}>‹</button>
 
-        {/* Flipbook + controls */}
-        <AnimatedSection delay={0.15}>
-          <div style={{ display:"flex", flexDirection:"column", alignItems:"center", gap:28 }}>
+          <span style={{ fontFamily:"sans-serif", fontSize:11, color:M,
+            letterSpacing:"0.15em", minWidth:64, textAlign:"center" }}>
+            {page + 1} / {TOTAL}
+          </span>
 
-            {/* Book */}
-            <div style={{ filter:"drop-shadow(0 32px 64px rgba(0,0,0,0.75))", position:"relative" }}>
-              {isClient && (
-                <HTMLFlipBook
-                  ref={bookRef}
-                  width={310}
-                  height={438}
-                  size="fixed"
-                  minWidth={240}
-                  maxWidth={400}
-                  minHeight={340}
-                  maxHeight={560}
-                  showCover={true}
-                  mobileScrollSupport={true}
-                  onFlip={onFlip}
-                  style={{ margin:"0 auto" }}
-                  startPage={0}
-                  drawShadow={true}
-                  flippingTime={650}
-                  usePortrait={false}
-                  startZIndex={0}
-                  autoSize={false}
-                  clickEventForward={true}
-                  useMouseEvents={true}
-                  swipeDistance={25}
-                  showPageCorners={true}
-                  disableFlipByClick={false}
-                  maxShadowOpacity={0.5}
-                  className=""
-                >
-                  <P1Hero />
-                  <P2Stats />
-                  <P3Story />
-                  <P4Vision />
-                  <P5Mission />
-                  <P6HowA />
-                  <P7HowB />
-                  <P8OffGrid />
-                  <P9NetMeter />
-                  <P10Hybrid />
-                  <P11ServA />
-                  <P12ServB />
-                  <P13Testi1 />
-                  <P14Testi2 />
-                  <P15Testi3 />
-                  <P16WhyUs />
-                  <P17Contact />
-                </HTMLFlipBook>
-              )}
-            </div>
+          <button onClick={goNext} disabled={atEnd} aria-label="Next page"
+            style={{ width:40, height:40, borderRadius:"50%",
+              border:`1px solid ${atEnd ? "rgba(232,84,26,0.18)" : O}`,
+              background:"transparent",
+              color:atEnd ? "rgba(232,84,26,0.25)" : O,
+              cursor:atEnd ? "not-allowed" : "pointer",
+              fontSize:20, display:"flex", alignItems:"center", justifyContent:"center",
+              transition:"all 0.2s" }}>›</button>
+        </div>
 
-            {/* Navigation */}
-            <div style={{ display:"flex", alignItems:"center", gap:20 }}>
-              <button onClick={goPrev} disabled={atStart} aria-label="Previous page"
-                style={{ width:44, height:44, borderRadius:"50%",
-                  border:`1px solid ${atStart ? "rgba(232,84,26,0.2)" : O}`,
-                  background:"transparent",
-                  color:atStart ? "rgba(232,84,26,0.3)" : O,
-                  cursor:atStart ? "not-allowed" : "pointer",
-                  fontSize:20, display:"flex", alignItems:"center", justifyContent:"center",
-                  transition:"all 0.2s" }}>‹</button>
+        {/* Page-dot index */}
+        <div style={{ display:"flex", gap:5, flexWrap:"wrap",
+          justifyContent:"center", maxWidth:"min(360px, 90vw)" }}>
+          {Array.from({ length: TOTAL }, (_, i) => (
+            <button key={i} onClick={() => jumpTo(i)}
+              title={`Page ${i + 1}`}
+              style={{ width:24, height:24,
+                border:`1px solid ${i===page ? O : "rgba(232,84,26,0.18)"}`,
+                background:i===page ? O : "transparent",
+                color:i===page ? D : M,
+                fontFamily:"sans-serif", fontSize:8, fontWeight:700,
+                cursor:"pointer", borderRadius:3, transition:"all 0.18s" }}>
+              {i + 1}
+            </button>
+          ))}
+        </div>
 
-              <div style={{ fontFamily:"sans-serif", fontSize:12, color:M,
-                letterSpacing:"0.15em", minWidth:72, textAlign:"center" }}>
-                {page + 1} / {TOTAL}
-              </div>
-
-              <button onClick={goNext} disabled={atEnd} aria-label="Next page"
-                style={{ width:44, height:44, borderRadius:"50%",
-                  border:`1px solid ${atEnd ? "rgba(232,84,26,0.2)" : O}`,
-                  background:"transparent",
-                  color:atEnd ? "rgba(232,84,26,0.3)" : O,
-                  cursor:atEnd ? "not-allowed" : "pointer",
-                  fontSize:20, display:"flex", alignItems:"center", justifyContent:"center",
-                  transition:"all 0.2s" }}>›</button>
-            </div>
-
-            {/* Pages index row */}
-            <div style={{ display:"flex", gap:6, flexWrap:"wrap", justifyContent:"center",
-              maxWidth:360 }}>
-              {Array.from({ length:TOTAL }, (_, i) => (
-                <button
-                  key={i}
-                  onClick={() => {
-                    const diff = i - page;
-                    if (diff > 0) for (let k=0;k<diff;k++) bookRef.current?.pageFlip().flipNext();
-                    else for (let k=0;k<-diff;k++) bookRef.current?.pageFlip().flipPrev();
-                  }}
-                  style={{ width:28, height:28, border:`1px solid ${i===page ? O : "rgba(232,84,26,0.2)"}`,
-                    background:i===page ? O : "transparent",
-                    color:i===page ? D : M,
-                    fontFamily:"sans-serif", fontSize:9, fontWeight:700,
-                    cursor:"pointer", borderRadius:4, transition:"all 0.2s" }}
-                >
-                  {i + 1}
-                </button>
-              ))}
-            </div>
-
-            <motion.div initial={{ opacity:0 }} whileInView={{ opacity:1 }}
-              transition={{ delay:0.8 }} viewport={{ once:true }}
-              style={{ fontFamily:"sans-serif", fontSize:10,
-                color:"rgba(122,117,114,0.5)", letterSpacing:"0.2em",
-                textTransform:"uppercase" }}>
-              ← Drag or click page edges to flip →
-            </motion.div>
-          </div>
-        </AnimatedSection>
+        <div style={{ fontFamily:"sans-serif", fontSize:9,
+          color:"rgba(122,117,114,0.45)", letterSpacing:"0.2em",
+          textTransform:"uppercase" }}>
+          ← drag or click page edges to flip →
+        </div>
       </div>
     </section>
   );
