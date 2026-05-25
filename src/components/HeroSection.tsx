@@ -1,12 +1,17 @@
 "use client";
 
-import { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef, useState, useEffect } from "react";
+import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import SplitText from "./SplitText";
 import OrangeGlow from "./OrangeGlow";
 
+const flipWords = ["ENERGY", "SAVINGS", "YOUR HOME", "YOUR FUTURE", "POWER"];
+
 export default function HeroSection() {
   const ref = useRef<HTMLElement>(null);
+  const [index, setIndex] = useState(0);
+  const [started, setStarted] = useState(false);
+
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start start", "end start"],
@@ -15,6 +20,20 @@ export default function HeroSection() {
   const y = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
   const opacity = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
 
+  // Start flipping after the initial SplitText animation finishes
+  useEffect(() => {
+    const startDelay = setTimeout(() => setStarted(true), 2200);
+    return () => clearTimeout(startDelay);
+  }, []);
+
+  useEffect(() => {
+    if (!started) return;
+    const interval = setInterval(() => {
+      setIndex((prev) => (prev + 1) % flipWords.length);
+    }, 2000);
+    return () => clearInterval(interval);
+  }, [started]);
+
   return (
     <section
       ref={ref}
@@ -22,16 +41,8 @@ export default function HeroSection() {
       style={{ background: "#1A1917" }}
     >
       {/* Glow orbs */}
-      <OrangeGlow
-        size={800}
-        opacity={0.12}
-        className="top-[-200px] left-[-200px]"
-      />
-      <OrangeGlow
-        size={500}
-        opacity={0.08}
-        className="bottom-[-100px] right-[-100px]"
-      />
+      <OrangeGlow size={800} opacity={0.12} className="top-[-200px] left-[-200px]" />
+      <OrangeGlow size={500} opacity={0.08} className="bottom-[-100px] right-[-100px]" />
 
       {/* Parallax content */}
       <motion.div
@@ -45,14 +56,48 @@ export default function HeroSection() {
             fontSize: "clamp(2.5rem, 6vw, 6rem)",
             fontFamily: "var(--font-poppins)",
             letterSpacing: "-0.02em",
-            lineHeight: 0.9,
+            lineHeight: 1.05,
           }}
         >
+          {/* Static top line */}
           <span className="block overflow-hidden" style={{ whiteSpace: "nowrap" }}>
             <SplitText text="OWN YOUR" splitBy="chars" delay={0.5} />
           </span>
-          <span className="block overflow-hidden" style={{ color: "#E8541A", whiteSpace: "nowrap" }}>
-            <SplitText text="ENERGY" splitBy="chars" delay={0.9} />
+
+          {/* Flip line */}
+          <span
+            className="block"
+            style={{
+              color: "#E8541A",
+              whiteSpace: "nowrap",
+              perspective: "600px",
+              height: "1.1em",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              overflow: "hidden",
+            }}
+          >
+            {!started ? (
+              /* Initial static word before flipping starts */
+              <span style={{ display: "inline-block" }}>ENERGY</span>
+            ) : (
+              <AnimatePresence mode="wait">
+                <motion.span
+                  key={index}
+                  initial={{ rotateX: 90, opacity: 0, y: "50%" }}
+                  animate={{ rotateX: 0, opacity: 1, y: "0%" }}
+                  exit={{ rotateX: -90, opacity: 0, y: "-50%" }}
+                  transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+                  style={{
+                    display: "inline-block",
+                    transformOrigin: "center center",
+                  }}
+                >
+                  {flipWords[index]}
+                </motion.span>
+              </AnimatePresence>
+            )}
           </span>
         </h1>
 
@@ -101,7 +146,10 @@ export default function HeroSection() {
         transition={{ delay: 2.4, duration: 0.8 }}
         className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
       >
-        <span className="text-gray-muted text-xs tracking-[0.3em] uppercase" style={{ fontFamily: "var(--font-poppins)" }}>
+        <span
+          className="text-gray-muted text-xs tracking-[0.3em] uppercase"
+          style={{ fontFamily: "var(--font-poppins)" }}
+        >
           Scroll
         </span>
         <motion.div
