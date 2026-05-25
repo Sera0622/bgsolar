@@ -64,40 +64,67 @@ export default function HeroSection() {
             <SplitText text="OWN YOUR" splitBy="chars" delay={0.5} />
           </span>
 
-          {/* Flip line */}
+          {/* Flip line — split-flap / departures-board style */}
           <span
             className="block"
             style={{
-              color: "#E8541A",
               whiteSpace: "nowrap",
-              perspective: "600px",
-              height: "1.1em",
+              height: "1.15em",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              overflow: "hidden",
+              perspective: "900px",
             }}
           >
-            {!started ? (
-              /* Initial static word before flipping starts */
-              <span style={{ display: "inline-block" }}>ENERGY</span>
-            ) : (
-              <AnimatePresence mode="wait">
-                <motion.span
-                  key={index}
-                  initial={{ rotateX: 90, opacity: 0, y: "50%" }}
-                  animate={{ rotateX: 0, opacity: 1, y: "0%" }}
-                  exit={{ rotateX: -90, opacity: 0, y: "-50%" }}
-                  transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
-                  style={{
-                    display: "inline-block",
-                    transformOrigin: "center center",
-                  }}
-                >
-                  {flipWords[index]}
-                </motion.span>
-              </AnimatePresence>
-            )}
+            {/* The "card" that looks like a split-flap tile */}
+            <span
+              style={{
+                position: "relative",
+                display: "inline-block",
+                color: "#E8541A",
+                background: "rgba(232,84,26,0.07)",
+                border: "1px solid rgba(232,84,26,0.22)",
+                borderRadius: "6px",
+                padding: "0 0.22em",
+              }}
+            >
+              {/* Centre divider — hallmark of a split-flap display */}
+              <span
+                aria-hidden="true"
+                style={{
+                  position: "absolute",
+                  left: 0,
+                  right: 0,
+                  top: "50%",
+                  height: "1.5px",
+                  background: "rgba(232,84,26,0.4)",
+                  zIndex: 5,
+                  transform: "translateY(-50%)",
+                  pointerEvents: "none",
+                }}
+              />
+
+              {!started ? (
+                <span style={{ display: "inline-block" }}>ENERGY</span>
+              ) : (
+                <AnimatePresence mode="wait">
+                  <motion.span
+                    key={index}
+                    initial={{ rotateX: -90, opacity: 0 }}
+                    animate={{ rotateX: 0, opacity: 1 }}
+                    exit={{ rotateX: 90, opacity: 0 }}
+                    transition={{ duration: 0.26, ease: [0.4, 0, 0.2, 1] }}
+                    style={{
+                      display: "inline-block",
+                      transformOrigin: "center center",
+                      backfaceVisibility: "hidden",
+                    }}
+                  >
+                    {flipWords[index]}
+                  </motion.span>
+                </AnimatePresence>
+              )}
+            </span>
           </span>
         </h1>
 
