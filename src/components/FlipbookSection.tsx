@@ -763,13 +763,29 @@ export default function FlipbookSection() {
   useEffect(() => { setIsClient(true); }, []);
 
   const onFlip = useCallback((e: { data: number }) => { setPage(e.data); }, []);
+
   const goNext = () => bookRef.current?.pageFlip().flipNext();
   const goPrev = () => bookRef.current?.pageFlip().flipPrev();
-  const jumpTo = (i: number) => {
-    const diff = i - page;
-    if (diff > 0) for (let k = 0; k < diff; k++) bookRef.current?.pageFlip().flipNext();
-    else          for (let k = 0; k < -diff; k++) bookRef.current?.pageFlip().flipPrev();
-  };
+
+  /** Jump to any page — reads current index directly from the book so it
+   *  doesn't depend on the `page` state variable (avoids stale closures). */
+  const jumpTo = useCallback((target: number) => {
+    const pf = bookRef.current?.pageFlip();
+    if (!pf) return;
+    const curr = pf.getCurrentPageIndex();
+    const diff = target - curr;
+    if (diff > 0) for (let k = 0; k < diff; k++) pf.flipNext();
+    else          for (let k = 0; k < -diff; k++) pf.flipPrev();
+  }, []);
+
+  /* Listen for nav clicks dispatched by Nav.tsx */
+  useEffect(() => {
+    const handler = (e: Event) => {
+      jumpTo((e as CustomEvent<{ page: number }>).detail.page);
+    };
+    window.addEventListener("flipbook-go", handler);
+    return () => window.removeEventListener("flipbook-go", handler);
+  }, [jumpTo]);
 
   const atStart = page === 0;
   const atEnd   = page >= TOTAL - 1;
