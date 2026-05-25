@@ -2,7 +2,9 @@
 
 import { useRef, useState, forwardRef, useCallback, useEffect } from "react";
 import dynamic from "next/dynamic";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
+
+const flipWords = ["ENERGY", "SAVINGS", "YOUR HOME", "YOUR FUTURE", "POWER"];
 import AnimatedSection from "./AnimatedSection";
 
 /* ─── Dynamic import — react-pageflip uses browser DOM APIs ─── */
@@ -51,56 +53,138 @@ const Shell = forwardRef<HTMLDivElement, { children: React.ReactNode }>(({ child
 ));
 Shell.displayName = "Shell";
 
-/* ══════ PAGE 1 — COVER ══════ */
-const P1Cover = forwardRef<HTMLDivElement>((_, ref) => (
-  <Shell ref={ref}>
-    <div style={{ height:6, background:O }} />
-    <div style={{ position:"absolute", top:"35%", left:"50%",
-      transform:"translate(-50%,-50%)", width:300, height:300, borderRadius:"50%",
-      background:`radial-gradient(circle, rgba(232,84,26,0.16) 0%, transparent 70%)`,
-      pointerEvents:"none" }} />
-    <div style={{ padding:"44px 32px 32px", height:"calc(100% - 6px)",
-      boxSizing:"border-box", display:"flex", flexDirection:"column", position:"relative" }}>
-      {/* Logomark */}
-      <svg viewBox="0 0 100 100" width={54} height={54} style={{ marginBottom:20 }}>
-        <circle cx="50" cy="50" r="30" fill="rgba(232,84,26,0.12)" />
-        <circle cx="50" cy="50" r="26" stroke={O} strokeWidth="1.5" fill="none" />
-        <path d="M50 50 L50 24 A26 26 0 0 0 24 50 Z" fill={O} opacity="0.55" />
-        <path d="M50 50 L76 50 A26 26 0 0 0 50 24 Z" fill={O} opacity="0.85" />
-        <path d="M50 50 L50 76 A26 26 0 0 0 76 50 Z" fill={O} opacity="0.55" />
-        <path d="M50 50 L24 50 A26 26 0 0 0 50 76 Z" fill={O} opacity="0.85" />
-        <line x1="50" y1="24" x2="50" y2="76" stroke={D} strokeWidth="2.5" />
-        <line x1="24" y1="50" x2="76" y2="50" stroke={D} strokeWidth="2.5" />
-        <polygon points="47,24 50,4 53,24" fill={O} />
-        <polygon points="47,76 50,96 53,76" fill={O} />
-        <polygon points="76,47 96,50 76,53" fill={O} />
-        <polygon points="24,47 4,50 24,53" fill={O} />
-        <circle cx="50" cy="50" r="5.5" fill={D} />
-        <circle cx="50" cy="50" r="3" fill={O} />
-      </svg>
-      <div style={{ fontFamily:"sans-serif", fontWeight:900, fontSize:26,
-        letterSpacing:"0.08em", color:L, textTransform:"uppercase", lineHeight:1, marginBottom:4 }}>
-        BETEL<span style={{ color:O }}>G</span>EUSE
+/* ══════ PAGE 1 — HERO (OWN YOUR ENERGY) ══════ */
+const P1Hero = forwardRef<HTMLDivElement>((_, ref) => {
+  const [index, setIndex] = useState(0);
+  const [started, setStarted] = useState(false);
+
+  useEffect(() => {
+    const t = setTimeout(() => setStarted(true), 1200);
+    return () => clearTimeout(t);
+  }, []);
+
+  useEffect(() => {
+    if (!started) return;
+    const iv = setInterval(() => setIndex(p => (p + 1) % flipWords.length), 2000);
+    return () => clearInterval(iv);
+  }, [started]);
+
+  return (
+    <Shell ref={ref}>
+      {/* Solar-grid background */}
+      <div style={{ position:"absolute", inset:0, opacity:0.06,
+        backgroundImage:`linear-gradient(rgba(232,84,26,0.8) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(232,84,26,0.8) 1px, transparent 1px)`,
+        backgroundSize:"22px 22px", pointerEvents:"none" }} />
+
+      {/* Glow orb */}
+      <div style={{ position:"absolute", top:"-20%", left:"-20%", width:"90%", height:"90%",
+        borderRadius:"50%",
+        background:"radial-gradient(circle, rgba(232,84,26,0.13) 0%, transparent 65%)",
+        pointerEvents:"none" }} />
+
+      <div style={{ padding:"32px 26px", height:"100%", boxSizing:"border-box",
+        display:"flex", flexDirection:"column", alignItems:"center",
+        justifyContent:"center", textAlign:"center", position:"relative" }}>
+
+        {/* Logo mark */}
+        <svg viewBox="0 0 100 100" width={40} height={40} style={{ marginBottom:14 }}>
+          <circle cx="50" cy="50" r="30" fill="rgba(232,84,26,0.12)" />
+          <circle cx="50" cy="50" r="26" stroke={O} strokeWidth="1.5" fill="none" />
+          <path d="M50 50 L50 24 A26 26 0 0 0 24 50 Z" fill={O} opacity="0.55" />
+          <path d="M50 50 L76 50 A26 26 0 0 0 50 24 Z" fill={O} opacity="0.85" />
+          <path d="M50 50 L50 76 A26 26 0 0 0 76 50 Z" fill={O} opacity="0.55" />
+          <path d="M50 50 L24 50 A26 26 0 0 0 50 76 Z" fill={O} opacity="0.85" />
+          <line x1="50" y1="24" x2="50" y2="76" stroke={D} strokeWidth="2.5" />
+          <line x1="24" y1="50" x2="76" y2="50" stroke={D} strokeWidth="2.5" />
+          <polygon points="47,24 50,4 53,24" fill={O} />
+          <polygon points="47,76 50,96 53,76" fill={O} />
+          <polygon points="76,47 96,50 76,53" fill={O} />
+          <polygon points="24,47 4,50 24,53" fill={O} />
+          <circle cx="50" cy="50" r="5.5" fill={D} />
+          <circle cx="50" cy="50" r="3" fill={O} />
+        </svg>
+
+        {/* OWN YOUR */}
+        <div style={{ fontFamily:"sans-serif", fontWeight:900, fontSize:30,
+          color:L, textTransform:"uppercase", letterSpacing:"-0.02em",
+          lineHeight:1, marginBottom:4, whiteSpace:"nowrap" }}>
+          OWN YOUR
+        </div>
+
+        {/* Split-flap word */}
+        <div style={{ position:"relative", display:"inline-block",
+          background:"rgba(232,84,26,0.08)", border:`1px solid rgba(232,84,26,0.28)`,
+          borderRadius:5, padding:"0 10px", marginBottom:18 }}>
+          {/* Centre divider */}
+          <span aria-hidden="true" style={{ position:"absolute", left:0, right:0,
+            top:"50%", height:"1.5px", background:"rgba(232,84,26,0.45)",
+            zIndex:5, transform:"translateY(-50%)", pointerEvents:"none" }} />
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={index}
+              initial={{ rotateX:-90, opacity:0 }}
+              animate={{ rotateX:0, opacity:1 }}
+              exit={{ rotateX:90, opacity:0 }}
+              transition={{ duration:0.26, ease:[0.4, 0, 0.2, 1] }}
+              style={{ fontFamily:"sans-serif", fontWeight:900, fontSize:30,
+                color:O, textTransform:"uppercase", letterSpacing:"-0.02em",
+                lineHeight:1.1, display:"block", whiteSpace:"nowrap",
+                transformOrigin:"center center", backfaceVisibility:"hidden" }}
+            >
+              {flipWords[index]}
+            </motion.div>
+          </AnimatePresence>
+        </div>
+
+        {/* Wordmark */}
+        <div style={{ fontFamily:"sans-serif", fontWeight:900, fontSize:13,
+          color:L, textTransform:"uppercase", letterSpacing:"0.1em",
+          marginBottom:2 }}>
+          BETEL<span style={{ color:O }}>G</span>EUSE
+        </div>
+        <div style={{ fontFamily:"sans-serif", fontSize:8, letterSpacing:"0.4em",
+          color:M, textTransform:"uppercase", marginBottom:18 }}>SOLAR</div>
+
+        {/* Subline */}
+        <div style={{ fontFamily:"sans-serif", fontSize:11, color:M,
+          lineHeight:1.65, maxWidth:210, marginBottom:22 }}>
+          Cut your Meralco bill. Power through brownouts.
+          <br />Go solar with Betelgeuse.
+        </div>
+
+        {/* CTAs */}
+        <div style={{ display:"flex", flexDirection:"column", gap:8, width:"100%", maxWidth:220 }}>
+          <a href="#contact" style={{ background:O, color:D, fontFamily:"sans-serif",
+            fontWeight:900, fontSize:9, letterSpacing:"0.2em", textTransform:"uppercase",
+            padding:"10px 0", textDecoration:"none", textAlign:"center",
+            display:"block" }}>
+            GET A QUOTE · ₱50
+          </a>
+          <a href="#products" style={{ border:`1px solid rgba(232,84,26,0.35)`,
+            color:L, fontFamily:"sans-serif", fontWeight:700, fontSize:9,
+            letterSpacing:"0.2em", textTransform:"uppercase",
+            padding:"9px 0", textDecoration:"none", textAlign:"center",
+            display:"block" }}>
+            OUR SYSTEMS
+          </a>
+        </div>
+
+        {/* Bottom hint */}
+        <div style={{ position:"absolute", bottom:16, fontFamily:"sans-serif",
+          fontSize:8, color:M, letterSpacing:"0.18em", textTransform:"uppercase" }}>
+          Flip to explore →
+        </div>
+
+        {/* Bottom orange line */}
+        <div style={{ position:"absolute", bottom:0, left:0, right:0, height:3,
+          background:`linear-gradient(to right, transparent, ${O}, transparent)`,
+          opacity:0.5 }} />
       </div>
-      <div style={{ fontFamily:"sans-serif", fontSize:11, letterSpacing:"0.45em",
-        color:M, textTransform:"uppercase", marginBottom:44 }}>SOLAR</div>
-      <div style={{ fontFamily:"sans-serif", fontWeight:900, fontSize:32, color:L,
-        textTransform:"uppercase", lineHeight:1.05, marginBottom:14 }}>
-        SOLAR<br /><span style={{ color:O }}>BROCHURE</span>
-      </div>
-      <div style={{ fontFamily:"sans-serif", fontSize:11, color:M, lineHeight:1.6,
-        maxWidth:220, marginBottom:36 }}>
-        Everything you need to know about going solar with Betelgeuse — flip through our complete guide.
-      </div>
-      <div style={{ width:40, height:2, background:O, marginBottom:14 }} />
-      <div style={{ fontFamily:"sans-serif", fontSize:9, color:M,
-        letterSpacing:"0.2em", textTransform:"uppercase" }}>2026 Edition</div>
-      <div style={{ marginTop:"auto", fontFamily:"sans-serif", fontSize:9, color:M,
-        letterSpacing:"0.15em", textTransform:"uppercase" }}>Flip to explore →</div>
-    </div>
-  </Shell>
-));
-P1Cover.displayName = "P1Cover";
+    </Shell>
+  );
+});
+P1Hero.displayName = "P1Hero";
 
 /* ══════ PAGE 2 — STATS ══════ */
 const P2Stats = forwardRef<HTMLDivElement>((_, ref) => (
@@ -706,7 +790,7 @@ export default function FlipbookSection() {
                   maxShadowOpacity={0.5}
                   className=""
                 >
-                  <P1Cover />
+                  <P1Hero />
                   <P2Stats />
                   <P3Story />
                   <P4Vision />
