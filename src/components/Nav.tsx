@@ -6,11 +6,11 @@ import BetelgeuseLogo from "./BetelgeuseLogo";
 
 /* Map each nav label to the 0-based flipbook page index it should open */
 const navLinks: { label: string; flipPage: number }[] = [
-  { label: "About",        flipPage: 2  },   // Our Story
-  { label: "How It Works", flipPage: 5  },   // Process 1/2
-  { label: "Products",     flipPage: 7  },   // Off/On-Grid
-  { label: "Services",     flipPage: 10 },   // Services 1/2
-  { label: "Contact",      flipPage: 16 },   // Contact / back cover
+  { label: "About",        flipPage: 3  },   // Our Story  (video is now page 2)
+  { label: "How It Works", flipPage: 6  },   // Process 1/2
+  { label: "Products",     flipPage: 8  },   // Off/On-Grid
+  { label: "Services",     flipPage: 11 },   // Services 1/2
+  { label: "Contact",      flipPage: 17 },   // Contact / back cover
 ];
 
 /** Dispatch a custom event that FlipbookSection listens for */
@@ -83,7 +83,7 @@ export default function Nav() {
           {/* CTA */}
           <div className="hidden md:block">
             <button
-              onClick={() => handleLink(16)}
+              onClick={() => handleLink(17)}
               className="relative overflow-hidden border border-orange text-orange px-6 py-2.5 text-sm font-bold tracking-widest uppercase group"
               style={{ fontFamily: "var(--font-poppins)", background: "none", cursor: "pointer" }}
             >
@@ -136,7 +136,7 @@ export default function Nav() {
               </motion.button>
             ))}
             <motion.button
-              onClick={() => handleLink(16)}
+              onClick={() => handleLink(17)}
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: navLinks.length * 0.08 + 0.1, duration: 0.5 }}

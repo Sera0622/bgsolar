@@ -41,7 +41,7 @@ function PageNum({ n, total }: { n: number; total: number }) {
   );
 }
 
-const TOTAL = 17;
+const TOTAL = 18;
 
 /* ─── Shared page shell ─── */
 const Shell = forwardRef<HTMLDivElement, { children: React.ReactNode }>(({ children }, ref) => (
@@ -185,7 +185,81 @@ const P1Hero = forwardRef<HTMLDivElement>((_, ref) => {
 });
 P1Hero.displayName = "P1Hero";
 
-/* ══════ PAGE 2 — STATS ══════ */
+/* ══════ PAGE 2 — DRONE VIDEO ══════ */
+const PVideoPage = forwardRef<HTMLDivElement>((_, ref) => {
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  /* Play when the page is in the DOM — pause is handled automatically
+     when the element is hidden by the flipbook's 3D transform */
+  useEffect(() => {
+    const v = videoRef.current;
+    if (!v) return;
+    v.play().catch(() => {/* autoplay blocked — user can tap */});
+  }, []);
+
+  return (
+    <Shell ref={ref}>
+      {/* Full-bleed video */}
+      <video
+        ref={videoRef}
+        src="/videos/drone.mp4"
+        muted
+        loop
+        playsInline
+        style={{
+          position: "absolute", inset: 0,
+          width: "100%", height: "100%",
+          objectFit: "cover",
+        }}
+      />
+
+      {/* Dark gradient overlay so text is readable */}
+      <div style={{
+        position: "absolute", inset: 0,
+        background: "linear-gradient(to top, rgba(26,25,23,0.85) 0%, rgba(26,25,23,0.15) 60%, rgba(26,25,23,0.05) 100%)",
+      }} />
+
+      {/* Top-left logo badge */}
+      <div style={{
+        position: "absolute", top: 20, left: 20,
+        fontFamily: "sans-serif", fontWeight: 900, fontSize: 11,
+        color: "rgba(247,244,240,0.9)", textTransform: "uppercase",
+        letterSpacing: "0.12em",
+      }}>
+        BETEL<span style={{ color: O }}>G</span>EUSE
+      </div>
+
+      {/* Orange top stripe */}
+      <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 3, background: O }} />
+
+      {/* Bottom caption */}
+      <div style={{ position: "absolute", bottom: 28, left: 26, right: 26 }}>
+        <div style={{
+          fontFamily: "sans-serif", fontSize: 9, color: O,
+          textTransform: "uppercase", letterSpacing: "0.3em", marginBottom: 8,
+        }}>
+          Betelgeuse Solar · Aerial View
+        </div>
+        <div style={{
+          fontFamily: "sans-serif", fontWeight: 900, fontSize: 24,
+          color: L, textTransform: "uppercase", lineHeight: 1.05,
+        }}>
+          SOLAR PANELS<br />
+          <span style={{ color: O }}>IN ACTION</span>
+        </div>
+        <div style={{
+          fontFamily: "sans-serif", fontSize: 10, color: "rgba(247,244,240,0.65)",
+          marginTop: 8, lineHeight: 1.5,
+        }}>
+          Real installations. Real Filipino homes.
+        </div>
+      </div>
+    </Shell>
+  );
+});
+PVideoPage.displayName = "PVideoPage";
+
+/* ══════ PAGE 3 (was 2) — STATS ══════ */
 const P2Stats = forwardRef<HTMLDivElement>((_, ref) => (
   <Shell ref={ref}>
     <div style={{ padding:"40px 32px", height:"100%", boxSizing:"border-box",
@@ -836,6 +910,7 @@ export default function FlipbookSection() {
             className=""
           >
             <P1Hero />
+            <PVideoPage />
             <P2Stats />
             <P3Story />
             <P4Vision />
