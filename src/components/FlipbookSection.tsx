@@ -199,7 +199,11 @@ const PVideoPage = forwardRef<HTMLDivElement>((_, ref) => {
 
   return (
     <Shell ref={ref}>
-      {/* Full-bleed video */}
+      {/* Dark background for the letterbox areas above/below the video */}
+      <div style={{ position: "absolute", inset: 0, background: "#080706" }} />
+
+      {/* Video — full width, natural 16:9 height, centred vertically.
+          No cropping: the whole frame is always visible. */}
       <video
         ref={videoRef}
         src="/videos/drone.mp4"
@@ -207,51 +211,65 @@ const PVideoPage = forwardRef<HTMLDivElement>((_, ref) => {
         loop
         playsInline
         style={{
-          position: "absolute", inset: 0,
-          width: "100%", height: "100%",
-          objectFit: "cover",
+          position: "absolute",
+          left: 0,
+          top: "50%",
+          transform: "translateY(-50%)",
+          width: "100%",
+          height: "auto",        /* keeps 16:9 ratio — no horizontal crop */
         }}
       />
 
-      {/* Dark gradient overlay so text is readable */}
+      {/* Gradient overlays — top and bottom — for readability */}
       <div style={{
-        position: "absolute", inset: 0,
-        background: "linear-gradient(to top, rgba(26,25,23,0.85) 0%, rgba(26,25,23,0.15) 60%, rgba(26,25,23,0.05) 100%)",
+        position: "absolute", inset: 0, pointerEvents: "none",
+        background: `linear-gradient(
+          to bottom,
+          rgba(8,7,6,0.85) 0%,
+          rgba(8,7,6,0.0) 28%,
+          rgba(8,7,6,0.0) 65%,
+          rgba(8,7,6,0.9) 100%
+        )`,
       }} />
-
-      {/* Top-left logo badge */}
-      <div style={{
-        position: "absolute", top: 20, left: 20,
-        fontFamily: "sans-serif", fontWeight: 900, fontSize: 11,
-        color: "rgba(247,244,240,0.9)", textTransform: "uppercase",
-        letterSpacing: "0.12em",
-      }}>
-        BETEL<span style={{ color: O }}>G</span>EUSE
-      </div>
 
       {/* Orange top stripe */}
       <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 3, background: O }} />
 
-      {/* Bottom caption */}
-      <div style={{ position: "absolute", bottom: 28, left: 26, right: 26 }}>
+      {/* Top badge */}
+      <div style={{
+        position: "absolute", top: 18, left: 22,
+        display: "flex", alignItems: "center", gap: 8,
+      }}>
+        <div style={{ height: 2, width: 18, background: O }} />
         <div style={{
-          fontFamily: "sans-serif", fontSize: 9, color: O,
-          textTransform: "uppercase", letterSpacing: "0.3em", marginBottom: 8,
+          fontFamily: "sans-serif", fontWeight: 900, fontSize: 10,
+          color: "rgba(247,244,240,0.88)", textTransform: "uppercase",
+          letterSpacing: "0.14em",
         }}>
-          Betelgeuse Solar · Aerial View
+          BETEL<span style={{ color: O }}>G</span>EUSE · Aerial View
+        </div>
+      </div>
+
+      {/* Bottom caption */}
+      <div style={{ position: "absolute", bottom: 26, left: 22, right: 22 }}>
+        <div style={{
+          fontFamily: "sans-serif", fontSize: 8, color: O,
+          textTransform: "uppercase", letterSpacing: "0.3em", marginBottom: 7,
+        }}>
+          Real Installations
         </div>
         <div style={{
-          fontFamily: "sans-serif", fontWeight: 900, fontSize: 24,
+          fontFamily: "sans-serif", fontWeight: 900, fontSize: 22,
           color: L, textTransform: "uppercase", lineHeight: 1.05,
         }}>
           SOLAR PANELS<br />
           <span style={{ color: O }}>IN ACTION</span>
         </div>
         <div style={{
-          fontFamily: "sans-serif", fontSize: 10, color: "rgba(247,244,240,0.65)",
-          marginTop: 8, lineHeight: 1.5,
+          fontFamily: "sans-serif", fontSize: 10,
+          color: "rgba(247,244,240,0.55)", marginTop: 6, lineHeight: 1.5,
         }}>
-          Real installations. Real Filipino homes.
+          Real Filipino homes. Real savings.
         </div>
       </div>
     </Shell>
