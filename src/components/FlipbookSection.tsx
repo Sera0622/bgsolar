@@ -847,19 +847,37 @@ function useBookDims() {
 
 export default function FlipbookSection() {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const bookRef  = useRef<any>(null);
-  const [page, setPage] = useState(0);
+  const bookRef    = useRef<any>(null);
+  const [page, setPage]     = useState(0);   // raw page index from react-pageflip
+  const [spread, setSpread] = useState(1);   // human-readable position (1-based)
+  const prevPageRef = useRef(0);
   const [isClient, setIsClient] = useState(false);
   const dims = useBookDims();
 
+  /* In 2-page (landscape) mode the book shows pairs, so there are fewer
+     flip positions than raw pages.  Cover + spreads + back cover:
+     Math.ceil((TOTAL + 1) / 2) = 10 for 18 pages.                     */
+  const totalSpreads = dims.portrait ? TOTAL : Math.ceil((TOTAL + 1) / 2);
+
   useEffect(() => { setIsClient(true); }, []);
 
-  const onFlip = useCallback((e: { data: number }) => { setPage(e.data); }, []);
+  const onFlip = useCallback((e: { data: number }) => {
+    const newPage = e.data;
+    const oldPage = prevPageRef.current;
+    prevPageRef.current = newPage;
+    setPage(newPage);
+    /* Increment/decrement spread counter by 1 per flip, clamped to valid range */
+    setSpread(prev =>
+      newPage > oldPage
+        ? Math.min(prev + 1, totalSpreads)
+        : Math.max(prev - 1, 1)
+    );
+  }, [totalSpreads]);
 
   const goNext = () => bookRef.current?.pageFlip().flipNext();
   const goPrev = () => bookRef.current?.pageFlip().flipPrev();
 
-  /** Go directly to any page in one smooth animation — no looping. */
+  /** Go directly to any page (raw page index) in one smooth animation. */
   const jumpTo = useCallback((target: number) => {
     bookRef.current?.pageFlip().flip(target);
   }, []);
@@ -873,8 +891,14 @@ export default function FlipbookSection() {
     return () => window.removeEventListener("flipbook-go", handler);
   }, [jumpTo]);
 
-  const atStart = page === 0;
-  const atEnd   = page >= TOTAL - 1;
+  const atStart = spread === 1;
+  const atEnd   = spread === totalSpreads;
+
+  /* For the dot-index: one dot per spread position.
+     In landscape mode, each spread s (1-based) maps to raw page:
+       s=1 → 0 (cover),  s>1 → 2*(s-1)-1                              */
+  const spreadToPage = (s: number) =>
+    dims.portrait ? s - 1 : s === 1 ? 0 : 2 * (s - 1) - 1;
 
   return (
     <section
@@ -966,7 +990,7 @@ export default function FlipbookSection() {
 
           <span style={{ fontFamily:"sans-serif", fontSize:11, color:M,
             letterSpacing:"0.15em", minWidth:64, textAlign:"center" }}>
-            {page + 1} / {TOTAL}
+            {spread} / {totalSpreads}
           </span>
 
           <button onClick={goNext} disabled={atEnd} aria-label="Next page"
@@ -979,21 +1003,25 @@ export default function FlipbookSection() {
               transition:"all 0.2s" }}>›</button>
         </div>
 
-        {/* Page-dot index */}
+        {/* Page-dot index — one dot per real flip position */}
         <div style={{ display:"flex", gap:5, flexWrap:"wrap",
-          justifyContent:"center", maxWidth:"min(360px, 90vw)" }}>
-          {Array.from({ length: TOTAL }, (_, i) => (
-            <button key={i} onClick={() => jumpTo(i)}
-              title={`Page ${i + 1}`}
-              style={{ width:24, height:24,
-                border:`1px solid ${i===page ? O : "rgba(232,84,26,0.18)"}`,
-                background:i===page ? O : "transparent",
-                color:i===page ? D : M,
-                fontFamily:"sans-serif", fontSize:8, fontWeight:700,
-                cursor:"pointer", borderRadius:3, transition:"all 0.18s" }}>
-              {i + 1}
-            </button>
-          ))}
+          justifyContent:"center", maxWidth:"min(320px, 90vw)" }}>
+          {Array.from({ length: totalSpreads }, (_, i) => {
+            const s = i + 1;        // 1-based spread number
+            const active = s === spread;
+            return (
+              <button key={s} onClick={() => jumpTo(spreadToPage(s))}
+                title={`Page ${s}`}
+                style={{ width:24, height:24,
+                  border:`1px solid ${active ? O : "rgba(232,84,26,0.18)"}`,
+                  background:active ? O : "transparent",
+                  color:active ? D : M,
+                  fontFamily:"sans-serif", fontSize:8, fontWeight:700,
+                  cursor:"pointer", borderRadius:3, transition:"all 0.18s" }}>
+                {s}
+              </button>
+            );
+          })}
         </div>
 
         <div style={{ fontFamily:"sans-serif", fontSize:9,
