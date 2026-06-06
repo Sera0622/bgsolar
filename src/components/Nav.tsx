@@ -80,20 +80,6 @@ export default function Nav() {
             ))}
           </ul>
 
-          {/* CTA */}
-          <div className="hidden md:block">
-            <button
-              onClick={() => handleLink(17)}
-              className="relative overflow-hidden border border-orange text-orange px-6 py-2.5 text-sm font-bold tracking-widest uppercase group"
-              style={{ fontFamily: "var(--font-poppins)", background: "none", cursor: "pointer" }}
-            >
-              <span className="relative z-10 transition-colors duration-300 group-hover:text-gray-deep">
-                Get Started
-              </span>
-              <span className="absolute inset-0 bg-orange translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]" />
-            </button>
-          </div>
-
           {/* Mobile hamburger */}
           <button
             className="md:hidden flex flex-col gap-1.5 p-2"
@@ -135,16 +121,6 @@ export default function Nav() {
                 {label}
               </motion.button>
             ))}
-            <motion.button
-              onClick={() => handleLink(17)}
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: navLinks.length * 0.08 + 0.1, duration: 0.5 }}
-              className="border border-orange text-orange px-8 py-3 text-sm font-bold tracking-widest uppercase"
-              style={{ fontFamily: "var(--font-poppins)", background: "none", cursor: "pointer" }}
-            >
-              Get Started
-            </motion.button>
           </motion.div>
         )}
       </AnimatePresence>
