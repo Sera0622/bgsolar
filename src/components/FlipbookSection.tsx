@@ -859,15 +859,9 @@ export default function FlipbookSection() {
   const goNext = () => bookRef.current?.pageFlip().flipNext();
   const goPrev = () => bookRef.current?.pageFlip().flipPrev();
 
-  /** Jump to any page — reads current index directly from the book so it
-   *  doesn't depend on the `page` state variable (avoids stale closures). */
+  /** Go directly to any page in one smooth animation — no looping. */
   const jumpTo = useCallback((target: number) => {
-    const pf = bookRef.current?.pageFlip();
-    if (!pf) return;
-    const curr = pf.getCurrentPageIndex();
-    const diff = target - curr;
-    if (diff > 0) for (let k = 0; k < diff; k++) pf.flipNext();
-    else          for (let k = 0; k < -diff; k++) pf.flipPrev();
+    bookRef.current?.pageFlip().flip(target);
   }, []);
 
   /* Listen for nav clicks dispatched by Nav.tsx */
