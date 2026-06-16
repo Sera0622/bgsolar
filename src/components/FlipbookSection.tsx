@@ -13,7 +13,7 @@ const L  = "#F7F4F0";
 const M  = "#7A7572";
 const BG = "#0D0C0A";
 
-const TOTAL = 18;
+const TOTAL = 19;
 const flipWords = ["ENERGY", "SAVINGS", "YOUR HOME", "YOUR FUTURE", "POWER"];
 
 /* ─── Subtle dot-grid used on every page ─── */
@@ -788,7 +788,77 @@ const P16WhyUs = forwardRef<HTMLDivElement>((_, ref) => (
 ));
 P16WhyUs.displayName = "P16WhyUs";
 
-/* ══════ P18 — CONTACT ══════ */
+/* ══════ P18 — PRICING ══════ */
+const PPricing = forwardRef<HTMLDivElement>((_, ref) => (
+  <Shell ref={ref}>
+    {/* Orange header band */}
+    <div style={{
+      position: "absolute", top: 0, left: 0, right: 0, height: 72,
+      background: `linear-gradient(135deg, ${O} 0%, rgba(232,84,26,0.6) 100%)`,
+    }}>
+      <div style={DOT_GRID} />
+      <div style={{ padding: "14px 24px" }}>
+        <div style={{ fontFamily: "sans-serif", fontSize: 8, color: "rgba(26,25,23,0.7)", letterSpacing: "0.3em", textTransform: "uppercase", marginBottom: 3 }}>Offer / Proposal</div>
+        <div style={{ fontFamily: "sans-serif", fontWeight: 900, fontSize: 20, color: D, textTransform: "uppercase", lineHeight: 1 }}>SYSTEM PRICING</div>
+      </div>
+    </div>
+
+    <div style={{ padding: "84px 20px 20px", height: "100%", boxSizing: "border-box", display: "flex", flexDirection: "column" }}>
+
+      {/* One block per system size */}
+      <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 14 }}>
+        {[
+          { kw: "6 KW",  hybrid: "₱330,000", net: "₱300,000", offgrid: "₱250,000" },
+          { kw: "8 KW",  hybrid: "₱480,000", net: "₱400,000", offgrid: "₱300,000" },
+          { kw: "10 KW", hybrid: "₱520,000", net: "₱450,000", offgrid: "₱350,000" },
+        ].map(({ kw, hybrid, net, offgrid }) => (
+          <div key={kw}>
+            {/* System size label */}
+            <div style={{
+              fontFamily: "sans-serif", fontWeight: 900, fontSize: 10,
+              color: O, letterSpacing: "0.2em", textTransform: "uppercase",
+              marginBottom: 7,
+            }}>{kw} System</div>
+
+            {/* 3 price cards */}
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 7 }}>
+              {[
+                { label: "Hybrid",       sub: "Battery + Panels\n+ Inverter", price: hybrid },
+                { label: "Net Metering", sub: "Panels\n+ Inverter",           price: net    },
+                { label: "On/Off Grid",  sub: "Grid-tie\nsystem",             price: offgrid },
+              ].map(({ label, sub, price }) => (
+                <div key={label} style={{
+                  background: "rgba(232,84,26,0.05)",
+                  border: "1px solid rgba(232,84,26,0.18)",
+                  borderRadius: 6, padding: "10px 8px",
+                  display: "flex", flexDirection: "column", alignItems: "center",
+                  textAlign: "center", gap: 5,
+                }}>
+                  <div style={{ fontFamily: "sans-serif", fontWeight: 900, fontSize: 8.5, color: L, textTransform: "uppercase", letterSpacing: "0.06em", lineHeight: 1.2 }}>{label}</div>
+                  <div style={{ fontFamily: "sans-serif", fontSize: 7, color: M, lineHeight: 1.4, whiteSpace: "pre-line" }}>{sub}</div>
+                  <div style={{ width: "100%", height: 1, background: `rgba(232,84,26,0.2)` }} />
+                  <div style={{ fontFamily: "sans-serif", fontWeight: 900, fontSize: 12, color: O, lineHeight: 1 }}>{price}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Footnote */}
+      <div style={{ marginTop: 12, padding: "8px 10px", background: "rgba(232,84,26,0.05)", border: "1px solid rgba(232,84,26,0.12)", borderRadius: 4 }}>
+        <div style={{ fontFamily: "sans-serif", fontSize: 8, color: M, lineHeight: 1.55 }}>
+          * Prices are indicative. Final quotation based on site assessment. Contact us via Viber for a free detailed proposal.
+        </div>
+      </div>
+
+      <PageNum n={18} total={TOTAL} />
+    </div>
+  </Shell>
+));
+PPricing.displayName = "PPricing";
+
+/* ══════ P19 — CONTACT ══════ */
 const P17Contact = forwardRef<HTMLDivElement>((_, ref) => (
   <Shell ref={ref}>
     {/* Full left orange strip */}
@@ -988,6 +1058,7 @@ export default function FlipbookSection() {
             <P14Testi2 />
             <P15Testi3 />
             <P16WhyUs />
+            <PPricing />
             <P17Contact />
           </HTMLFlipBook>
         )}

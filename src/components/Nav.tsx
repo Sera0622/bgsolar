@@ -10,7 +10,7 @@ const navLinks: { label: string; flipPage: number }[] = [
   { label: "How It Works", flipPage: 6  },   // Process 1/2
   { label: "Products",     flipPage: 8  },   // Off/On-Grid
   { label: "Services",     flipPage: 11 },   // Services 1/2
-  { label: "Contact",      flipPage: 17 },   // Contact / back cover
+  { label: "Contact",      flipPage: 18 },   // Contact / back cover
 ];
 
 /** Dispatch a custom event that FlipbookSection listens for */
