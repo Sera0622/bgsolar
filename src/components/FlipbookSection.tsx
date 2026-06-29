@@ -808,7 +808,7 @@ const PPricing = forwardRef<HTMLDivElement>((_, ref) => (
       {/* One block per system size */}
       <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 16 }}>
         {[
-          { kw: "6 KW",  hybrid: "₱380,000", ongrid: "₱270,000" },
+          { kw: "6 KW",  hybrid: "₱380,000", ongrid: "₱300,000" },
           { kw: "8 KW",  hybrid: "₱480,000", ongrid: "₱370,000" },
           { kw: "10 KW", hybrid: "₱580,000", ongrid: "₱470,000" },
         ].map(({ kw, hybrid, ongrid }) => (
