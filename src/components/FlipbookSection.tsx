@@ -806,38 +806,38 @@ const PPricing = forwardRef<HTMLDivElement>((_, ref) => (
     <div style={{ padding: "84px 20px 20px", height: "100%", boxSizing: "border-box", display: "flex", flexDirection: "column" }}>
 
       {/* One block per system size */}
-      <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 14 }}>
+      <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 16 }}>
         {[
-          { kw: "6 KW",  hybrid: "₱330,000", net: "₱300,000", offgrid: "₱250,000" },
-          { kw: "8 KW",  hybrid: "₱480,000", net: "₱400,000", offgrid: "₱300,000" },
-          { kw: "10 KW", hybrid: "₱520,000", net: "₱450,000", offgrid: "₱350,000" },
-        ].map(({ kw, hybrid, net, offgrid }) => (
-          <div key={kw}>
-            {/* System size label */}
+          { kw: "6 KW",  hybrid: "₱380,000", ongrid: "₱270,000" },
+          { kw: "8 KW",  hybrid: "₱480,000", ongrid: "₱370,000" },
+          { kw: "10 KW", hybrid: "₱580,000", ongrid: "₱470,000" },
+        ].map(({ kw, hybrid, ongrid }) => (
+          <div key={kw} style={{
+            background: "rgba(232,84,26,0.04)",
+            border: "1px solid rgba(232,84,26,0.14)",
+            borderRadius: 8, overflow: "hidden",
+          }}>
+            {/* KW header */}
             <div style={{
-              fontFamily: "sans-serif", fontWeight: 900, fontSize: 10,
-              color: O, letterSpacing: "0.2em", textTransform: "uppercase",
-              marginBottom: 7,
-            }}>{kw} System</div>
+              background: "rgba(232,84,26,0.1)", padding: "8px 14px",
+              borderBottom: "1px solid rgba(232,84,26,0.15)",
+              fontFamily: "sans-serif", fontWeight: 900, fontSize: 13,
+              color: L, letterSpacing: "0.08em",
+            }}>{kw}</div>
 
-            {/* 3 price cards */}
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 7 }}>
+            {/* 2 price columns */}
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 0 }}>
               {[
-                { label: "Hybrid",       sub: "Battery + Panels\n+ Inverter", price: hybrid },
-                { label: "Net Metering", sub: "Panels\n+ Inverter",           price: net    },
-                { label: "On/Off Grid",  sub: "Grid-tie\nsystem",             price: offgrid },
-              ].map(({ label, sub, price }) => (
+                { label: "Hybrid", sub: "Battery, Panels, Inverter", price: hybrid },
+                { label: "On Grid + Net Metering", sub: "Panels, Inverter", price: ongrid },
+              ].map(({ label, sub, price }, i) => (
                 <div key={label} style={{
-                  background: "rgba(232,84,26,0.05)",
-                  border: "1px solid rgba(232,84,26,0.18)",
-                  borderRadius: 6, padding: "10px 8px",
-                  display: "flex", flexDirection: "column", alignItems: "center",
-                  textAlign: "center", gap: 5,
+                  padding: "12px 14px", textAlign: "center",
+                  borderRight: i === 0 ? "1px solid rgba(232,84,26,0.12)" : "none",
                 }}>
-                  <div style={{ fontFamily: "sans-serif", fontWeight: 900, fontSize: 8.5, color: L, textTransform: "uppercase", letterSpacing: "0.06em", lineHeight: 1.2 }}>{label}</div>
-                  <div style={{ fontFamily: "sans-serif", fontSize: 7, color: M, lineHeight: 1.4, whiteSpace: "pre-line" }}>{sub}</div>
-                  <div style={{ width: "100%", height: 1, background: `rgba(232,84,26,0.2)` }} />
-                  <div style={{ fontFamily: "sans-serif", fontWeight: 900, fontSize: 12, color: O, lineHeight: 1 }}>{price}</div>
+                  <div style={{ fontFamily: "sans-serif", fontWeight: 900, fontSize: 9, color: O, textTransform: "uppercase", letterSpacing: "0.06em", marginBottom: 4 }}>{label}</div>
+                  <div style={{ fontFamily: "sans-serif", fontSize: 8, color: M, lineHeight: 1.4, marginBottom: 8 }}>{sub}</div>
+                  <div style={{ fontFamily: "sans-serif", fontWeight: 900, fontSize: 15, color: O, lineHeight: 1 }}>{price}</div>
                 </div>
               ))}
             </div>
