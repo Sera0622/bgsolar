@@ -806,12 +806,12 @@ const PPricing = forwardRef<HTMLDivElement>((_, ref) => (
     <div style={{ padding: "84px 20px 20px", height: "100%", boxSizing: "border-box", display: "flex", flexDirection: "column" }}>
 
       {/* One block per system size */}
-      <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 16 }}>
+      <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 14 }}>
         {[
-          { kw: "6 KW",  hybrid: "₱380,000", ongrid: "₱300,000" },
-          { kw: "8 KW",  hybrid: "₱480,000", ongrid: "₱370,000" },
-          { kw: "10 KW", hybrid: "₱580,000", ongrid: "₱470,000" },
-        ].map(({ kw, hybrid, ongrid }) => (
+          { kw: "6 KW",  hybrid: "₱380,000", net: "₱300,000", offgrid: "₱250,000" },
+          { kw: "8 KW",  hybrid: "₱480,000", net: "₱400,000", offgrid: "₱350,000" },
+          { kw: "10 KW", hybrid: "₱580,000", net: "₱500,000", offgrid: "₱450,000" },
+        ].map(({ kw, hybrid, net, offgrid }) => (
           <div key={kw} style={{
             background: "rgba(232,84,26,0.04)",
             border: "1px solid rgba(232,84,26,0.14)",
@@ -819,25 +819,26 @@ const PPricing = forwardRef<HTMLDivElement>((_, ref) => (
           }}>
             {/* KW header */}
             <div style={{
-              background: "rgba(232,84,26,0.1)", padding: "8px 14px",
+              background: "rgba(232,84,26,0.1)", padding: "7px 14px",
               borderBottom: "1px solid rgba(232,84,26,0.15)",
-              fontFamily: "sans-serif", fontWeight: 900, fontSize: 13,
+              fontFamily: "sans-serif", fontWeight: 900, fontSize: 12,
               color: L, letterSpacing: "0.08em",
             }}>{kw}</div>
 
-            {/* 2 price columns */}
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 0 }}>
+            {/* 3 price columns */}
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 0 }}>
               {[
-                { label: "Hybrid", sub: "Battery, Panels, Inverter", price: hybrid },
-                { label: "On Grid + Net Metering", sub: "Panels, Inverter", price: ongrid },
+                { label: "Hybrid",        sub: "Battery, Panels, Inverter", price: hybrid  },
+                { label: "Net Metering",  sub: "Panels, Inverter",          price: net     },
+                { label: "On/Off Grid",   sub: "Grid-tie system",           price: offgrid },
               ].map(({ label, sub, price }, i) => (
                 <div key={label} style={{
-                  padding: "12px 14px", textAlign: "center",
-                  borderRight: i === 0 ? "1px solid rgba(232,84,26,0.12)" : "none",
+                  padding: "10px 8px", textAlign: "center",
+                  borderRight: i < 2 ? "1px solid rgba(232,84,26,0.12)" : "none",
                 }}>
-                  <div style={{ fontFamily: "sans-serif", fontWeight: 900, fontSize: 9, color: O, textTransform: "uppercase", letterSpacing: "0.06em", marginBottom: 4 }}>{label}</div>
-                  <div style={{ fontFamily: "sans-serif", fontSize: 8, color: M, lineHeight: 1.4, marginBottom: 8 }}>{sub}</div>
-                  <div style={{ fontFamily: "sans-serif", fontWeight: 900, fontSize: 15, color: O, lineHeight: 1 }}>{price}</div>
+                  <div style={{ fontFamily: "sans-serif", fontWeight: 900, fontSize: 8, color: O, textTransform: "uppercase", letterSpacing: "0.04em", lineHeight: 1.3, marginBottom: 3 }}>{label}</div>
+                  <div style={{ fontFamily: "sans-serif", fontSize: 7, color: M, lineHeight: 1.4, marginBottom: 7 }}>{sub}</div>
+                  <div style={{ fontFamily: "sans-serif", fontWeight: 900, fontSize: 12, color: O }}>{price}</div>
                 </div>
               ))}
             </div>
