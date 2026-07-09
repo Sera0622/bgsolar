@@ -828,9 +828,9 @@ const PPricing = forwardRef<HTMLDivElement>((_, ref) => (
             {/* 3 price columns */}
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 0 }}>
               {[
-                { label: "Hybrid",        sub: "Battery, Panels, Inverter", price: hybrid  },
-                { label: "Net Metering",  sub: "Panels, Inverter",          price: net     },
-                { label: "On/Off Grid",   sub: "Grid-tie system",           price: offgrid },
+                { label: "Hybrid On-Grid",         sub: "Battery, Panels, Inverter", price: hybrid  },
+                { label: "On-Grid + Net Metering", sub: "Panels, Inverter",          price: net     },
+                { label: "Off Grid",               sub: "Grid-tie system",           price: offgrid },
               ].map(({ label, sub, price }, i) => (
                 <div key={label} style={{
                   padding: "10px 8px", textAlign: "center",
